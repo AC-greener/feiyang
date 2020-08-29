@@ -76,8 +76,7 @@ export default {
   },
   methods: {
     getArticleInfo() {
-      
-      axios.get(`${BASE_URL}/article/${this.id}`)
+      axios.get(`${BASE_URL}/article?id=${this.id}`)
         .then(res => {
 
         })
@@ -144,6 +143,6 @@ export default {
   .article-container .like {
     position: fixed;
     top: 260px;
-    left: 220px;
+    left: 210px;
   }
 </style>

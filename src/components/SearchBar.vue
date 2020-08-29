@@ -18,7 +18,7 @@
   <div class="result-list">
     <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
       <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
-      <div class="article-content">{{ item.content }}</div>
+      <div class="article-content" v-html=item.content></div>
     </el-row>
   </div>
 </el-container>
@@ -45,12 +45,12 @@ export default {
       searchResultList: [
         {
           title: 'nodejs 从入门到放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃11221',
-          content: 'hello world',
+          content: 'I love Mediums membership — it gives me access to the stories I love by the writers I love, and it allows me to heaaaaaaaaaaaaaaaalp support those writers financially.—Kayt Molina, Medium member',
           id: 1
         },
         {
           title: '你不知道的js',
-          content: 'hello world',
+          content: 'hello world ',
           id: 2
         },
       ]
@@ -69,11 +69,11 @@ export default {
     },
     handleSearch() {
       axios.post(`${BASE_URL}/search`, {
-        keywords: this.keywords,
+        keyword: this.keywords,
         size: 10,
         page: 1
       }).then(res => {
-        console.log(res.data.data)
+        this.searchResultList = res.data.data.data
       }).catch(err => {
         console.log(err)
       })
@@ -83,9 +83,9 @@ export default {
 </script>
 
 <style scoped >
-.border {
-  border: 1px solid red;
-}
+  .border {
+    border: 1px solid red;
+  }
   .result-list {
     width: 600px;
     margin-top: 30px;
@@ -101,16 +101,25 @@ export default {
     font-weight: 600px;
     height: 40px;
     width: 600px;
-    color: rgba(0, 0, 0, .84);
+    color: rgb(28 30 48 / 74%);
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
     cursor: pointer;
   }
   .article-content {
+    position: relative;
     font-size: 16px;
     font-weight: 400px;
-    color: rgba(0,0,0,.54)
+    color: rgba(0,0,0,.54);
+    /* height: 46px; */
+    line-height: 23px;
+    max-height: 46px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .icon {
     cursor: pointer;
@@ -121,8 +130,8 @@ export default {
     overflow: hidden;
   }
   .search-container {
-    height: 900px;
-    background: #2F94D8;
+    min-height: 900px;
+    background: #50a3a2;
     position: relative;
     display: flex;
     /* justify-content: center;    */
