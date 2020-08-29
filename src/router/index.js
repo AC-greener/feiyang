@@ -12,6 +12,16 @@ export default new Router({
       component: () => import('../components/SearchBar.vue')
     },
     {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/Login.vue')
+    },
+    {
+      path: '/regist',
+      name: 'Regist',
+      component: () => import('../views/Regist.vue')
+    },
+    {
       path: '/article/:id',
       name: 'Article',
       component: Article

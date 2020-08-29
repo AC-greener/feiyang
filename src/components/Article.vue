@@ -1,7 +1,6 @@
 <template>
 <el-container class="article-container">
   <el-header>
-    header
   </el-header>
   <div class="like" @click='handleLikeClick'>
     <svg class="icon guzhang" aria-hidden="true">
@@ -50,7 +49,6 @@
     </el-row>
   </el-main>
   <el-footer>
-    footer
   </el-footer>
 </el-container>
 
@@ -88,7 +86,7 @@ export default {
         })
     },
     handleLikeClick() {
-      axios.get(`${BASE_URL}/article/like/id?=${this.id}`)
+      axios.get(`${BASE_URL}/article/like?id=${this.id}`)
         .then(res => {
 
         })

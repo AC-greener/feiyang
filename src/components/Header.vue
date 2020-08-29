@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div @click="toHome" class="logo">
-      <img src="../assets/logo2.png">
+      <img src="/static/logo2.png">
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
   /* margin-bottom: 100px; */
 }
 .header .logo {
+  z-index: 2;
   cursor: pointer;
   position: absolute;
   top: -15px;
