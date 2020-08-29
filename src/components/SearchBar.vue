@@ -1,11 +1,11 @@
 <template>
 <el-container class="search-container">
   <div class="add-article">
-    <el-button @click="editArticle">
+    <!-- <el-button @click="editArticle"> -->
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-fabu"></use>
       </svg>
-    </el-button>
+    <!-- </el-button> -->
   </div>
   <div class="searchbox">
     <button class="btn-menu">
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-// import  from 'vue-router'
 import { Container, Button, Row } from 'element-ui'
 import axios from 'axios'
 import BASE_URL from '@/server/config'
@@ -57,7 +56,7 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.$store.state)
   },
 
   methods: {
@@ -75,7 +74,10 @@ export default {
       }).then(res => {
         this.searchResultList = res.data.data.data
       }).catch(err => {
-        console.log(err)
+        this.$message({
+          message: err,
+          type: 'error'
+        })
       })
     }
   }

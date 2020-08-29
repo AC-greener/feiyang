@@ -6,45 +6,17 @@
     <svg class="icon guzhang" aria-hidden="true">
       <use xlink:href="#icon-guzhang2"></use>
     </svg>
-    <span style="color: rgb(117, 117, 117">100</span>
+    <span style="color: rgb(117, 117, 117">{{this.star}}</span>
   </div>
   <el-main class="article-main">
     <el-row class="article-row" :gutter="10">
       <el-col :span="24">
         <h1 class="article-title">
-          Detect Faces, Texts, and Even Barcodes with Chrome’s Shape Detection API
+          {{this.title}}
         </h1>
-        <p>
-          As a web developer, we would have had many instances where we were required to install external libraries to handle the detection of elements such as faces,text, and barcode. This was because there was no web standard API for developers to utilize.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
-        <p>
-          Tip: Use Bit (Github) to share, document, and manage reusable React components from different projects.
-           It’s a great way to increase code reuse, speed up development, and build apps that scale.
-        </p>
+        <div v-html="this.content">
+
+        </div>
       </el-col>
     </el-row>
   </el-main>
@@ -68,7 +40,10 @@ export default {
   },
   data() {
     return {
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      title: '',
+      content: '',
+      star: ''
     }
   },
   mounted() {
@@ -78,10 +53,15 @@ export default {
     getArticleInfo() {
       axios.get(`${BASE_URL}/article?id=${this.id}`)
         .then(res => {
-
+          this.title = res.data.data.title
+          this.content = res.data.data.content
+          this.star = res.data.data.star
         })
         .catch(err => {
-          console.log(err)
+          this.$message({
+            message: err,
+            type: 'error'
+          })
         })
     },
     handleLikeClick() {

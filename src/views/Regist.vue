@@ -81,7 +81,7 @@ export default {
         this.$message({
           message: err,
           type: 'error'
-        });
+        })
       })
     }
   }
