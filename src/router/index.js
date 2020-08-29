@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
 import Article from '@/components/Article'
-// import Admin from '@/views/Admin'
 
 Vue.use(Router)
 
@@ -11,7 +9,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: () => import('../components/SearchBar.vue')
     },
     {
       path: '/article/:id',
@@ -19,9 +17,9 @@ export default new Router({
       component: Article
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/Admin.vue')
+      path: '/edit',
+      name: 'edit',
+      component: () => import('../views/Edit.vue')
     }
   ]
 })

@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped >
   .icon {
     cursor: pointer;
     width: 1em;
