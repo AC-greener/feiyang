@@ -207,7 +207,7 @@ export default {
   font-size: 30px;
   font-weight: 600;
 }
-.number{
+.user-info .number{
   color: #ff3300;
   font-size: 14px;
 }
