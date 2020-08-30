@@ -61,15 +61,11 @@ export default {
       loading: false,
       searchResultList: [],
       hostList:[],
-      latestList: [],
+      latestList: []
     }
   },
   mounted() {
-    var list = localStorage.getItem('searchResultList')
-    if (list){
-      this.searchResultList = JSON.parse(list)
-    }
-    this.keywords = localStorage.getItem('keyword')
+    this.searchResultList = this.$store.state.searchHistory
   },
   methods: {
     getSearchRecommend(keyword, cb) {
@@ -102,8 +98,6 @@ export default {
       if (this.keywords == ''){
         return
       }
-      localStorage.removeItem('searchResultList')
-      localStorage.removeItem('keyword')
       this.loading = true
       this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
@@ -119,9 +113,11 @@ export default {
           })
           return
         }
+        
         this.searchResultList = res.data.data.data
-        localStorage.setItem('searchResultList', JSON.stringify(this.searchResultList))
-        localStorage.setItem('keyword', this.keywords)
+        this.$store.commit('changeSearchHistory', {
+          searchHistory: this.searchResultList
+        })
       }).catch(err => {
         this.loading = false
         this.$message({
@@ -135,7 +131,6 @@ export default {
 </script>
 
 <style scoped >
-
   .border {
     border: 1px solid red;
   }

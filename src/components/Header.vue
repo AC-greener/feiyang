@@ -12,7 +12,7 @@
       title="知奇然用户"
       width="200"
       trigger="hover">
-        <el-content>
+        <div>
           <el-button @click="editArticle" class="list-button-item" type="primary" v-if="hasLogin">
               <i class="el-icon-promotion icon"></i> 分享知识
           </el-button>
@@ -27,7 +27,7 @@
           <el-button @click="logout"  class="list-button-item" type="default" v-if="hasLogin">
               <i class="el-icon-s-opportunity icon"></i> 退出登录
           </el-button>
-        </el-content>
+        </div>
         <div class="user_avatar" slot="reference">
           <i class="el-icon-user-solid" v-if="!hasLogin"></i>
           <i class="el-icon-s-operation" v-if="hasLogin"></i>
@@ -37,10 +37,14 @@
   </div>
 </template>
 <script>
+import { Popover } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config';
 export default {
   name: 'Header',
+  components: {
+    'el-popover': Popover
+  },
   data() {
     return {
       // hasLogin: !!this.$store.state.userinfo.username
