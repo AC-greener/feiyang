@@ -14,7 +14,10 @@
       trigger="hover">
         <el-content>
           <el-button @click="editArticle" class="list-button-item" type="primary" v-if="hasLogin">
-              <i class="el-icon-promotion icon"></i> 分享知识
+              <i class="el-icon-s-promotion icon"></i> 分享知识
+          </el-button>
+          <el-button @click="userCenter" class="list-button-item" type="primary" v-if="hasLogin">
+              <i class="el-icon-user-solid icon"></i> 用户中心
           </el-button>
           <el-button class="list-button-item" type="primary" v-if="!hasLogin"
           @click="login">
@@ -59,6 +62,9 @@ export default {
     },
     register(){
       this.$router.push('/regist')
+    },
+    userCenter(){
+      this.$router.push('/user')
     },
     editArticle() {
       this.$router.push('/edit')

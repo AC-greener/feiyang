@@ -139,7 +139,7 @@ export default {
     color: #50a3a2;
     vertical-align: top;
     border-radius: 8px;
-    left: 50px;
+    left: 10px;
     cursor: pointer;
   }
   @keyframes like-ani{
