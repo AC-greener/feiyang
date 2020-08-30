@@ -35,12 +35,12 @@
                 <div class="user-data">
                   <el-row :gutter="20">
                     <el-col :span="8">
-                      <div class="data-num">0</div>
+                      <div class="data-num">{{total}}</div>
                       <div class="data-name">总文章数</div>
                     </el-col>
                     <el-col :span="8">
                       <div class="data-num" style="color:#ff3300;">
-                        0
+                        {{counting['2020-08-30']}}
                       </div>
                       <div class="data-name">今日提交</div>
                     </el-col>
@@ -56,9 +56,9 @@
           <div style="margin-top:20px"></div>
           <el-row :gutter="20">
           <el-col :span="24" v-for="item in historyArticleList" :key="item.id" class="article-item">
-            <div class="article-item-box">
+            <div class="article-item-box" @click="viewDetails(item.id)">
               <div class="user-float-icon"
-              :style="'background-color:' + colors[item.status]">
+              :style="'background-color:' + colors[Number(item.status)]">
                 {{dict[item.status]}}
               </div>
               <div class="user-atricle-title"> 《{{item.title}}》</div>
@@ -90,8 +90,9 @@ export default {
         "date":"2020-08-30","content":"+0"
       }],
       counting: [],
-      colors: ['#888','#409EFF','#67C23A', '#ff3300'],
-      dict: ['待','审','过','撤'],
+      total: 0,
+      colors: ['','#888','#409EFF','#67C23A', '#ff3300'],
+      dict: ['','待','审','过','撤'],
       page: 1,
       size: 10,
       historyArticleList: []
@@ -101,6 +102,9 @@ export default {
     this.loadData()
   },
   methods: {
+    viewDetails(id){
+      this.$router.push('/article/' + id)
+    },
     loadData(){
       axios.post(`${BASE_URL}/article/history`, {
         page: this.page,
@@ -115,6 +119,7 @@ export default {
           }
           this.historyArticleList = res.data.data.data.article_data
           this.counting = res.data.data.data.date_count
+          this.total = res.data.data.count
           for (let i in res.data.data.data.date_count){
             let cnt = res.data.data.data.date_count[i]
             if (cnt > 0){
