@@ -30,7 +30,7 @@
 
 <script>
 import { Container, Button, Row } from 'element-ui'
-import axios from 'axios'
+import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 export default {
   components: {
@@ -59,9 +59,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state)
   },
-
   methods: {
     toArticleDetail(id) {
       this.$router.push('/article/' + id)
@@ -81,6 +79,13 @@ export default {
         page: 1
       }).then(res => {
         this.loading = false
+        if(res.data.status !== 200) {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+          return
+        }
         this.searchResultList = res.data.data.data
       }).catch(err => {
         this.loading = false

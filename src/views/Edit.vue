@@ -26,12 +26,11 @@
 </template>
 
 <script>
-import aioxs from 'axios'
+import axios from '../server/axios'
 import { Button, Container, Header, Main, Form, FormItem } from 'element-ui'
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
-import axios from 'axios';
 import BASE_URL from '@/server/config';
 export default {
     components: {
@@ -87,24 +86,28 @@ export default {
       return html
     },
     onEditorChange() {
-      this.getHtml()
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.getHtml()
           axios.post(`${BASE_URL}/article`, {
             title: this.articleForm.articleTitle,
             content: this.getHtml(),
             author: 'tongtong'
           })
             .then(res => {
+              if(res.data.status !== 200) {
+                this.$message({
+                  message: res.data.message,
+                  type: 'error'
+                })
+                return
+              }
               this.$message({
                 message: '发布成功',
                 type: 'success'
-              });
-            console.log(res)
-          })
+              })
+            })
             .catch(err => {
               this.$message({
                 message: '发布失败',
@@ -112,7 +115,7 @@ export default {
               });
           })
         } else {
-          return false;
+          return false
         }
       });
     },

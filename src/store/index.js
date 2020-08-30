@@ -4,9 +4,9 @@ Vue.use(Vuex)
 const store =  new Vuex.Store({
   state: {
     userinfo: {
-      username: '',
-      id: ''
-    }
+      username: localStorage.getItem('user') || '',
+    },
+    token: localStorage.getItem('token') || ''
   },
   mutations: {
     changeUserInfo (state, payload) {

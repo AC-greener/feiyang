@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '../server/axios'
 import { Form, FormItem } from 'element-ui'
 import BASE_URL from '@/server/config';
 export default {
@@ -53,7 +53,10 @@ export default {
         user: this.registForm.email,
       })
       .then(res => {
-        console.log('获取验证码成功')
+        this.$message({
+          message: '发送验证码成功，请查看您的邮箱~',
+          type: 'success'
+        })
       })
       .catch(err => {
         this.$message({
@@ -69,6 +72,13 @@ export default {
         code: this.registForm.code
       })
       .then(res => {
+        if(res.data.status !== 200) {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+          return
+        }
         this.$message({
           message: '注册成功，即将跳转到登录页~',
           type: 'success'
@@ -89,6 +99,14 @@ export default {
 </script>
 
 <style scoped>
+
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+}
 .emial-wrapper {
   display: flex;
   margin-left: 155px;
@@ -99,13 +117,6 @@ export default {
 .emial-wrapper button {
   width: 150px;
   height: 42px;
-}
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-weight: 300;
 }
 
 .wrapper {
@@ -123,7 +134,7 @@ export default {
   overflow: hidden;
 }
 .wrapper.form-success .container h1 {
-  /* transform: translateY(85px); */
+  transform: translateY(85px);
 }
 .container {
   margin-top: -100px;
