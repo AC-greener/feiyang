@@ -40,7 +40,7 @@
                     </el-col>
                     <el-col :span="8">
                       <div class="data-num" style="color:#ff3300;">
-                        {{counting['2020-08-30']}}
+                        {{today}}
                       </div>
                       <div class="data-name">今日提交</div>
                     </el-col>
@@ -91,6 +91,7 @@ export default {
       }],
       counting: [],
       total: 0,
+      today: 0,
       colors: ['','#888','#409EFF','#67C23A', '#ff3300'],
       dict: ['','待','审','过','撤'],
       page: 1,
@@ -118,7 +119,7 @@ export default {
             return
           }
           this.historyArticleList = res.data.data.data.article_data
-          this.counting = res.data.data.data.date_count
+          this.today = res.data.data.data.date_count
           this.total = res.data.data.count
           for (let i in res.data.data.data.date_count){
             let cnt = res.data.data.data.date_count[i]
