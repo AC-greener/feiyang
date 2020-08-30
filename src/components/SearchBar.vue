@@ -12,9 +12,17 @@
         <el-dropdown-item>方案</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <input  v-model="keywords" id="search" type="text"  autocomplete="off"
+    <!-- <input  v-model="keywords" id="search" type="text"  autocomplete="off"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
-    @keyup.enter="handleSearch">
+    @keyup.enter="handleSearch"> -->
+    <el-autocomplete
+      class="search-input"
+      v-model="keywords"
+      :fetch-suggestions="getSearchRecommend"
+      placeholder="探索知识世界，从这里开始..."
+      :trigger-on-focus="false"
+      @change="handleSearch"
+    ></el-autocomplete>
     <button class="btn-search" @click="handleSearch">
       <i class="el-icon-search search-icon"></i>
     </button>
@@ -34,14 +42,15 @@
 </template>
 
 <script>
-import { Container, Button, Row } from 'element-ui'
+import { Container, Button, Row, Autocomplete } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 export default {
   components: {
     'el-container': Container,
     'el-button': Button,
-    'el-row': Row
+    'el-row': Row,
+    'el-autocomplete': Autocomplete
   },
   name: 'SearchBar',
   data() {
@@ -52,18 +61,39 @@ export default {
       loading: false,
       searchResultList: [],
       hostList:[],
-      latestList: []
+      latestList: [],
     }
   },
   mounted() {
-
+    var list = localStorage.getItem('searchResultList')
+    if (list){
+      this.searchResultList = JSON.parse(list)
+    }
+    this.keywords = localStorage.getItem('keyword')
   },
   methods: {
+    getSearchRecommend(keyword, cb) {
+      axios.post(`${BASE_URL}/search/hints`, {
+        keyword
+      })
+      .then(res => {
+        const result = []
+        res.data.data.forEach((item, index) => {
+          result.push({value: item})
+        })
+        cb(result)
+      })
+      .catch(err => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
+    },
     toArticleDetail(id) {
       this.$router.push('/article/' + id)
     },
     handleClick(tab, event) {
-      console.log(tab, event);
     },
     editArticle() {
       this.$router.push('/edit')
@@ -72,6 +102,8 @@ export default {
       if (this.keywords == ''){
         return
       }
+      localStorage.removeItem('searchResultList')
+      localStorage.removeItem('keyword')
       this.loading = true
       this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
@@ -88,6 +120,8 @@ export default {
           return
         }
         this.searchResultList = res.data.data.data
+        localStorage.setItem('searchResultList', JSON.stringify(this.searchResultList))
+        localStorage.setItem('keyword', this.keywords)
       }).catch(err => {
         this.loading = false
         this.$message({
@@ -101,20 +135,20 @@ export default {
 </script>
 
 <style scoped >
+
   .border {
     border: 1px solid red;
   }
   .result-list {
-    width: 1000px;
+    width: 900px;
     padding-left: 220px;
     margin-top: 20px;
-    /* margin-left: -210px; */
     overflow: hidden;
   }
   .result-item {
     margin-bottom: 15px;
     border: rgba(0,0,0,0) solid 1px;
-    padding: 5px 30px;
+    padding: 0 30px;
     cursor: pointer;
   }
   .article-title {
@@ -137,7 +171,6 @@ export default {
     font-size: 16px;
     font-weight: 400px;
     color: rgba(0,0,0,.54);
-    /* height: 46px; */
     line-height: 23px;
     max-height: 46px;
     overflow: hidden;
@@ -195,6 +228,7 @@ export default {
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 30px;
     border: #fff 2px solid;
   }
   @keyframes add-bor{
@@ -214,7 +248,7 @@ export default {
     border: #000 2px solid;
   }
   .searchbox>.btn-menu {
-    padding: 16px;
+    padding: 20px 16px 16px 16px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -237,6 +271,16 @@ export default {
 .result-item:hover{
   border-radius: 5px;
 }
+.result-item:hover > .item-cover >.item-cover-image{
+  animation: image-ani 0.4s linear;
+  transform: scale(1.1, 1.1);
+}
+.result-item:hover > .item-content > .article-title{
+  color: #000;
+}
+.result-item:hover > .item-content > .article-content{
+  color: #000;
+}
 .item-cover{
   width: 160px;
   height: 110px;
@@ -251,6 +295,7 @@ export default {
   padding-top: 10px;
 }
 .item-cover-image{
+  border-radius: 6px;
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -262,10 +307,6 @@ export default {
   100%{
     transform: scale(1.1, 1.1);
   }
-}
-.item-cover-image:hover{
-  animation: image-ani 0.4s linear;
-  transform: scale(1.1, 1.1);
 }
 .el-tabs{
   outline: none;

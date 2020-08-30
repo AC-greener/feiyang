@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <div class="logo">
-      <div style="display:inline-block;">
-        <div class="logo-image" @click="home">
+      <div style="display:inline-block;"  @click="home">
+        <div class="logo-image">
           <div class="logo-image-inner">知</div>
         </div>
         <div class="sub-title">知奇然 知其所以然.</div>
@@ -28,7 +28,10 @@
               <i class="el-icon-s-opportunity icon"></i> 退出登录
           </el-button>
         </el-content>
-        <div class="user_avatar" slot="reference"><i class="el-icon-user-solid"></i></div>
+        <div class="user_avatar" slot="reference">
+          <i class="el-icon-user-solid" v-if="!hasLogin"></i>
+          <i class="el-icon-s-operation" v-if="hasLogin"></i>
+        </div>
       </el-popover>
     </div>
   </div>
@@ -54,6 +57,8 @@ export default {
   methods: {
     home(){
       this.$router.push('/')
+      localStorage.removeItem('searchResultList')
+      localStorage.removeItem('keyword')
     },
     login(){
       this.$router.push('/login')
@@ -120,11 +125,11 @@ export default {
    border-radius: 100px;
    border: #50a392 2px solid;
    width:54px;
-   margin-left: 110px;
-   margin-top: 40px;
+   margin-left: 70px;
+   margin-top: 30px;
  }
  .sub-title{
-   margin-left: 70px;
+   margin-left: 30px;
    margin-top: 4px;
    color: #fff;
    background: #50a392;
@@ -143,12 +148,12 @@ export default {
    background-color: #50a3a2;
    border-radius: 100px;
    border: #fff 2px solid;
-   margin-top: 50px;
-   margin-right: 20px;
+   margin-top: 30px;
+   margin-right: 10px;
    padding: 0;
  }
  .user_avatar:hover{
-   background-color: #50a392;
+   background-color: rgb(90,132,200);
  }
  .list-button-item{
    width: 100%;
