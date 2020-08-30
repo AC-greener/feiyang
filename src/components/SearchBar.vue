@@ -38,6 +38,9 @@
       </div>
     </el-row>
   </div>
+  <div v-show="showImptyTips">
+    没有找到您要搜索的内容，换个词试一试吧~
+  </div>
   <el-pagination
     :hide-on-single-page="1"
     class="search-paginaton"
@@ -75,7 +78,8 @@ export default {
       hostList:[],
       latestList: [],
       totalLength: 1,
-      currentPage: 1
+      currentPage: 1,
+      showImptyTips: false
     }
   },
   mounted() {
@@ -130,6 +134,9 @@ export default {
         
         this.searchResultList = res.data.data.data
         this.totalLength = res.data.data.count
+        if(this.totalLength === 0) {
+          this.showImptyTips = true
+        }
         this.$store.commit('changeSearchHistory', {
           searchHistory: this.searchResultList
         })

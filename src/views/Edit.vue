@@ -2,7 +2,7 @@
 <el-container style="padding-top: 100px">
   <!-- <el-header>
   </el-header> -->
-  <el-main>
+  <el-main style="padding-bottom: 0">
     <el-form :model='articleForm'  ref="articleForm" label-position='left'  class="demo-ruleForm">
       <el-form-item
         label="文章标题:"
@@ -28,7 +28,7 @@
     </el-form>
     <editor 
       :options="defaultOptions"
-      height="560px"
+      height="395px"
       @change="onEditorChange"
       ref="toastuiEditor"
     />
@@ -140,6 +140,6 @@ export default {
 <style scoped>
   .button-submit {
     float: right;
-    margin: 30px 40px;
+    margin: 20px 40px;
   }
 </style>
