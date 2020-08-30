@@ -58,7 +58,7 @@ export default {
     return {
       articleForm: {
         articleTitle: '',
-        articleType: ''
+        articleType: '1'
       },
       defaultOptions: {
         minHeight: '560px',
@@ -125,7 +125,7 @@ export default {
             .catch(err => {
               this.$message({
                 message: '发布失败',
-                type: 'success'
+                type: 'error'
               });
           })
         } else {

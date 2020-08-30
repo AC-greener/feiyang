@@ -6,11 +6,19 @@ const store =  new Vuex.Store({
     userinfo: {
       username: localStorage.getItem('user') || '',
     },
-    token: localStorage.getItem('token') || ''
+    token: localStorage.getItem('token') || '',
+    searchHistory: []
   },
   mutations: {
     changeUserInfo (state, payload) {
       state.userinfo.username = payload.username
+    },
+    logout(state) {
+      state.userinfo.username = ''
+      state.token = ''
+    },
+    changeSearchHistory(state, payload) {
+      state.searchHistory = payload.searchHistory
     }
   },
   actions: {

@@ -12,9 +12,17 @@
         <el-dropdown-item>方案</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <input  v-model="keywords" id="search" type="text"  autocomplete="off"
+    <!-- <input  v-model="keywords" id="search" type="text"  autocomplete="off"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
-    @keyup.enter="handleSearch">
+    @keyup.enter="handleSearch"> -->
+    <el-autocomplete
+      class="search-input"
+      v-model="keywords"
+      :fetch-suggestions="getSearchRecommend"
+      placeholder="探索知识世界，从这里开始..."
+      :trigger-on-focus="false"
+      @change="handleSearch"
+    ></el-autocomplete>
     <button class="btn-search" @click="handleSearch">
       <i class="el-icon-search search-icon"></i>
     </button>
@@ -24,8 +32,8 @@
       <div class="item-cover">
         <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
       </div>
-      <div class="item-content">
-        <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
+      <div class="item-content" @click="toArticleDetail(item.id)" >
+        <div class="article-title">{{ item.title }}</div>
         <div class="article-content" v-html="item.content"></div>
       </div>
     </el-row>
@@ -34,14 +42,15 @@
 </template>
 
 <script>
-import { Container, Button, Row } from 'element-ui'
+import { Container, Button, Row, Autocomplete } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 export default {
   components: {
     'el-container': Container,
     'el-button': Button,
-    'el-row': Row
+    'el-row': Row,
+    'el-autocomplete': Autocomplete
   },
   name: 'SearchBar',
   data() {
@@ -56,18 +65,31 @@ export default {
     }
   },
   mounted() {
-    var list = localStorage.getItem('searchResultList')
-    if (list){
-      this.searchResultList = JSON.parse(list)
-    }
-    this.keywords = localStorage.getItem('keyword')
+    this.searchResultList = this.$store.state.searchHistory
   },
   methods: {
+    getSearchRecommend(keyword, cb) {
+      axios.post(`${BASE_URL}/search/hints`, {
+        keyword
+      })
+      .then(res => {
+        const result = []
+        res.data.data.forEach((item, index) => {
+          result.push({value: item})
+        })
+        cb(result)
+      })
+      .catch(err => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
+    },
     toArticleDetail(id) {
       this.$router.push('/article/' + id)
     },
     handleClick(tab, event) {
-      console.log(tab, event);
     },
     editArticle() {
       this.$router.push('/edit')
@@ -76,8 +98,6 @@ export default {
       if (this.keywords == ''){
         return
       }
-      localStorage.removeItem('searchResultList')
-      localStorage.removeItem('keyword')
       this.loading = true
       this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
@@ -93,9 +113,11 @@ export default {
           })
           return
         }
+        
         this.searchResultList = res.data.data.data
-        localStorage.setItem('searchResultList', JSON.stringify(this.searchResultList))
-        localStorage.setItem('keyword', this.keywords)
+        this.$store.commit('changeSearchHistory', {
+          searchHistory: this.searchResultList
+        })
       }).catch(err => {
         this.loading = false
         this.$message({
@@ -116,7 +138,6 @@ export default {
     width: 900px;
     padding-left: 220px;
     margin-top: 20px;
-    /* margin-left: -210px; */
     overflow: hidden;
   }
   .result-item {
@@ -145,7 +166,6 @@ export default {
     font-size: 16px;
     font-weight: 400px;
     color: rgba(0,0,0,.54);
-    /* height: 46px; */
     line-height: 23px;
     max-height: 46px;
     overflow: hidden;
@@ -223,7 +243,7 @@ export default {
     border: #000 2px solid;
   }
   .searchbox>.btn-menu {
-    padding: 16px;
+    padding: 20px 16px 16px 16px;
     background: transparent;
     border: none;
     cursor: pointer;
