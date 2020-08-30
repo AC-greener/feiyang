@@ -14,7 +14,6 @@
     </el-dropdown>
     <input  v-model="keywords" id="search" type="text"  autocomplete="off"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
-    autocomplete="false"
     @keyup.enter="handleSearch">
     <button class="btn-search" @click="handleSearch">
       <i class="el-icon-search search-icon"></i>
