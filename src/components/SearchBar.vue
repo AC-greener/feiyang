@@ -24,8 +24,8 @@
       <div class="item-cover">
         <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
       </div>
-      <div class="item-content">
-        <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
+      <div class="item-content" @click="toArticleDetail(item.id)" >
+        <div class="article-title">{{ item.title }}</div>
         <div class="article-content" v-html="item.content"></div>
       </div>
     </el-row>

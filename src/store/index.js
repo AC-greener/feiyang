@@ -11,6 +11,10 @@ const store =  new Vuex.Store({
   mutations: {
     changeUserInfo (state, payload) {
       state.userinfo.username = payload.username
+    },
+    logout(state) {
+      state.userinfo.username = ''
+      state.token = ''
     }
   },
   actions: {

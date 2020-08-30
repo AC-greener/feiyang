@@ -40,7 +40,7 @@ export default {
       id: this.$route.params.id,
       title: '',
       content: '',
-      star: ''
+      star: 0
     }
   },
   mounted() {

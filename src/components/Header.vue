@@ -24,7 +24,7 @@
           @click="register">
               <i class="el-icon-s-custom icon"></i> 注册账号
           </el-button>
-          <el-button class="list-button-item" type="default" v-if="hasLogin">
+          <el-button @click="logout"  class="list-button-item" type="default" v-if="hasLogin">
               <i class="el-icon-s-opportunity icon"></i> 退出登录
           </el-button>
         </el-content>
@@ -34,22 +34,28 @@
   </div>
 </template>
 <script>
-
+import axios from '../server/axios'
+import BASE_URL from '@/server/config';
 export default {
   name: 'Header',
   data() {
     return {
-      hasLogin: !!this.$store.state.userinfo.username
+      // hasLogin: !!this.$store.state.userinfo.username
+    }
+  },
+  computed: {
+    hasLogin() {
+      console.log(!!this.$store.state.userinfo.username)
+      return !!this.$store.state.userinfo.username
     }
   },
   mounted() {
-    console.log(this.hasLogin)
   },
   methods: {
     home(){
       this.$router.push('/')
-    }
-    ,login(){
+    },
+    login(){
       this.$router.push('/login')
     },
     register(){
@@ -57,6 +63,32 @@ export default {
     },
     editArticle() {
       this.$router.push('/edit')
+    },
+    logout() {
+      axios.post(`${BASE_URL}/logout`)
+        .then(res => {
+          if(res.data.status !== 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+            return
+          }
+          this.$message({
+            message: '退出成功',
+            type: 'error'
+          })
+          localStorage.removeItem('user')
+          localStorage.removeItem('token')
+          this.$store.commit('logout')
+          this.$router.push('/')
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: 'error'
+          })
+        })
     }
   }
 }
