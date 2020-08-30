@@ -2,7 +2,7 @@
 <el-container class="search-container">
   <div class="add-article">
     <!-- <el-button @click="editArticle"> -->
-      <svg class="icon" aria-hidden="true">
+      <svg @click="editArticle"  class="icon" aria-hidden="true">
         <use xlink:href="#icon-fabu"></use>
       </svg>
     <!-- </el-button> -->
@@ -35,9 +35,6 @@ export default {
     'el-row': Row
   },
   name: 'SearchBar',
-  props: {
-    msg: String
-  },
   data() {
     return {
       keywords: '',
@@ -45,12 +42,12 @@ export default {
         {
           title: 'nodejs 从入门到放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃11221',
           content: 'I love Mediums membership — it gives me access to the stories I love by the writers I love, and it allows me to heaaaaaaaaaaaaaaaalp support those writers financially.—Kayt Molina, Medium member',
-          id: 1
+          id: 159869469164
         },
         {
           title: '你不知道的js',
           content: 'hello world ',
-          id: 2
+          id: 159869469164
         },
       ]
     }

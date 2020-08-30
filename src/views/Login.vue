@@ -59,6 +59,9 @@ export default {
       }
     }
   },
+  mounted() {
+
+  },
   methods: {
     login() {
       axios.post(`${BASE_URL}/login`, {
@@ -66,19 +69,23 @@ export default {
         password: this.loginForm.password
       })
       .then(res => {
-        this.$message({
-          message: '登录成功，即将跳转到首页~',
-          type: 'success'
+        axios.defaults.headers.common['Authorization'] = res.data.data
+        this.$store.commit('changeUserInfo', {
+          username: this.loginForm.username
         })
         setTimeout(() => {
           this.$router.push('/')
         }, 1000)
+        this.$message({
+          message: '登录成功，即将跳转到首页~',
+          type: 'success'
+        })
       })
       .catch(err => {
         this.$message({
           message: err,
           type: 'error'
-        });
+        })
       })
     }
   }
