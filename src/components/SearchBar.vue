@@ -3,27 +3,32 @@
   <div class="add-article">
   </div>
   <div class="searchbox">
-    <button class="btn-menu">
-    </button>
+    <el-dropdown :hide-on-click="false" class="btn-menu">
+      <span class="el-dropdown-link">
+        知识<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>知识</el-dropdown-item>
+        <el-dropdown-item>方案</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
     <input v-model="keywords" id="search" type="text"
-    placeholder="Search..." name="search" class="search"
+    placeholder="探索知识世界，从这里开始..." name="search" class="search"
     @keyup.enter="handleSearch">
     <button class="btn-search" @click="handleSearch">
-      <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
+      <i class="el-icon-search search-icon"></i>
     </button>
   </div>
   <div class="result-list">
-    <transition name="el-fade-in-linear">
     <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
       <div class="item-cover">
-        <img :src="baseUrl + item.cover" class="item-cover-image">
+        <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
       </div>
       <div class="item-content">
         <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
         <div class="article-content" v-html="item.content"></div>
       </div>
     </el-row>
-    </transition>
   </div>
 </el-container>
 </template>
@@ -42,27 +47,23 @@ export default {
   data() {
     return {
       keywords: '',
+      activeName: 'hot',
       baseUrl: `${BASE_URL}`,
       loading: false,
-      searchResultList: [
-        {
-          title: 'nodejs 从入门到放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃11221',
-          content: 'I love Mediums membership — it gives me access to the stories I love by the writers I love, and it allows me to heaaaaaaaaaaaaaaaalp support those writers financially.—Kayt Molina, Medium member',
-          id: 159869469164
-        },
-        {
-          title: '你不知道的js',
-          content: 'hello world ',
-          id: 159869469164
-        },
-      ]
+      searchResultList: [],
+      hostList:[],
+      latestList: []
     }
   },
   mounted() {
+
   },
   methods: {
     toArticleDetail(id) {
       this.$router.push('/article/' + id)
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
     editArticle() {
       this.$router.push('/edit')
@@ -113,7 +114,7 @@ export default {
   .result-item {
     margin-bottom: 15px;
     border: rgba(0,0,0,0) solid 1px;
-    padding: 20px 30px;
+    padding: 5px 30px;
     cursor: pointer;
   }
   .article-title {
@@ -155,7 +156,7 @@ export default {
   }
   .search-container {
     min-height: 900px;
-    background: #eff;
+    background: #50a392;
     position: relative;
     display: flex;
     /* justify-content: center;    */
@@ -196,10 +197,20 @@ export default {
     margin-right: auto;
     border: #fff 2px solid;
   }
+  @keyframes add-bor{
+    0%{
+      border: #fff 2px solid;
+    }
+    100%{
+      border: #000 2px solid;
+    }
+  }
   .searchbox:hover {
+    animation: add-bor 0.5s linear;
     border: #000 2px solid;
   }
   .searchbox:active {
+    animation: add-bor 0.2s linear;
     border: #000 2px solid;
   }
   .searchbox>.btn-menu {
@@ -240,7 +251,7 @@ export default {
 }
 .item-cover{
   width: 160px;
-  height: 120px;
+  height: 110px;
   display: inline-block;
   margin-left: -170px;
   background-color: #eee;
@@ -248,6 +259,8 @@ export default {
 .item-content{
   display: inline-block;
   margin-left: 30px;
+  vertical-align: top;
+  padding-top: 10px;
 }
 .item-cover-image{
   width: 100%;
@@ -265,5 +278,29 @@ export default {
 .item-cover-image:hover{
   animation: image-ani 0.4s linear;
   transform: scale(1.1, 1.1);
+}
+.el-tabs{
+  outline: none;
+  font-size: 20px;
+}
+.list-title{
+  width: 600px;
+}
+.list-title-part-left{
+  text-align: start;
+  width: 49%;
+  display: inline-block;
+}
+.list-title-part-right{
+  text-align: start;
+  width: 49%;
+  display: inline-block;
+}
+.search-icon{
+  font-size: 30px;
+}
+.search-icon:hover{
+  font-size: 30px;
+  font-weight: 900;
 }
 </style>

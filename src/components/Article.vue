@@ -3,10 +3,8 @@
   <el-header>
   </el-header>
   <div class="like" @click='handleLikeClick'>
-    <svg class="icon guzhang" aria-hidden="true">
-      <use xlink:href="#icon-guzhang2"></use>
-    </svg>
-    <span style="color: rgb(117, 117, 117">{{this.star}}</span>
+    <i class="el-icon-s-opportunity" style="font-size:30px;line-height:55px;"></i>
+    <span>{{this.star}} 人喜欢</span>
   </div>
   <el-main class="article-main">
     <el-row class="article-row" :gutter="10">
@@ -129,7 +127,32 @@ export default {
   }
   .article-container .like {
     position: fixed;
-    top: 260px;
-    left: 210px;
+    top: 250px;
+    padding-right: 10px;
+    height: 60px;
+    border: #50a3a2 solid 2px;
+    text-align: start;
+    padding-left: 5px;
+    font-size: 20px;
+    color: #50a3a2;
+    vertical-align: top;
+    border-radius: 8px;
+    left: 50px;
+    cursor: pointer;
+  }
+  @keyframes like-ani{
+    0%{
+      background-color: #fff;
+      color: #50a3a2;
+    }
+    100%{
+      background-color: #50a3a2;
+      color: #fff;
+    }
+  }
+  .like:hover{
+    animation: like-ani 0.5s linear;
+    background-color: #50a3a2;
+    color: #fff;
   }
 </style>

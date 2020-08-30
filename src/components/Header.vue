@@ -1,7 +1,12 @@
 <template>
   <div class="header">
     <div class="logo">
-      <el-image @click="home" src="/static/logo2.png" class="logo-icon"></el-image>
+      <div style="display:inline-block;">
+        <div class="logo-image" @click="home">
+          <div class="logo-image-inner">知</div>
+        </div>
+        <div class="sub-title">知奇然 知其所以然.</div>
+      </div>
       <el-popover
       placement="bottom"
       title="知奇然用户"
@@ -23,7 +28,7 @@
             <i class="el-icon-s-opportunity icon"></i> 退出登录
         </el-button>
       </el-content>
-      <div class="user_avatar" slot="reference">知</div>
+      <div class="user_avatar" slot="reference"><i class="el-icon-user-solid"></i></div>
     </el-popover>
     </div>
   </div>
@@ -70,18 +75,35 @@ export default {
  .logo-icon {
    width: 130px;
  }
+ .logo-image{
+   background-color:#50a392;
+   height: 54px;
+   border-radius: 100px;
+   border: #50a392 2px solid;
+   width:54px;
+   margin-left: 110px;
+   margin-top: 40px;
+ }
+ .sub-title{
+   margin-left: 70px;
+   margin-top: 4px;
+   color: #fff;
+   background: #50a392;
+   padding: 4px 10px;
+   font-size: 15px;
+ }
  .user_avatar{
    width: 50px;
    height: 50px;
    line-height: 50px;
    text-align: center;
-   color: #fff;
    font-size: 30px;
    float: right;
+   color: #fff;
    border-style: none;
    background-color: #50a3a2;
    border-radius: 100px;
-   border: #50a3a2 4px solid;
+   border: #fff 2px solid;
    margin-top: 50px;
    margin-right: 20px;
    padding: 0;
@@ -99,5 +121,18 @@ export default {
  }
 .list-button-item:hover{
    background-color: rgb(90,132,200);
+}
+.logo-image-inner{
+  background-color:#50a392;
+   height:50px;
+   font-size: 40px;
+   font-weight: 300;
+   border-radius: 100px;
+   border: #fff 2px solid;
+   width:50px;
+   color:#fff;
+   text-align:center;
+   line-height: 50px;
+   display: inline-block;
 }
 </style>

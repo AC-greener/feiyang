@@ -18,5 +18,8 @@ export default {
    padding: 0;
    margin: 0;
 }
+.is-active{
+  color: #50a392 !important;
+}
 </style>
 
