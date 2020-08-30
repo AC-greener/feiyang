@@ -60,6 +60,7 @@ export default {
     if (list){
       this.searchResultList = JSON.parse(list)
     }
+    this.keywords = localStorage.getItem('keyword')
   },
   methods: {
     toArticleDetail(id) {
@@ -76,6 +77,7 @@ export default {
         return
       }
       localStorage.removeItem('searchResultList')
+      localStorage.removeItem('keyword')
       this.loading = true
       this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
@@ -93,6 +95,7 @@ export default {
         }
         this.searchResultList = res.data.data.data
         localStorage.setItem('searchResultList', JSON.stringify(this.searchResultList))
+        localStorage.setItem('keyword', this.keywords)
       }).catch(err => {
         this.loading = false
         this.$message({
