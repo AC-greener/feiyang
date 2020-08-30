@@ -14,6 +14,7 @@
     </el-dropdown>
     <input v-model="keywords" id="search" type="text"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
+    autocomplete="false"
     @keyup.enter="handleSearch">
     <button class="btn-search" @click="handleSearch">
       <i class="el-icon-search search-icon"></i>
@@ -56,7 +57,10 @@ export default {
     }
   },
   mounted() {
-
+    var list = localStorage.getItem('searchResultList')
+    if (list){
+      this.searchResultList = JSON.parse(list)
+    }
   },
   methods: {
     toArticleDetail(id) {
@@ -72,6 +76,7 @@ export default {
       if (this.keywords == ''){
         return
       }
+      localStorage.removeItem('searchResultList')
       this.loading = true
       this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
@@ -88,6 +93,7 @@ export default {
           return
         }
         this.searchResultList = res.data.data.data
+        localStorage.setItem('searchResultList', JSON.stringify(this.searchResultList))
       }).catch(err => {
         this.loading = false
         this.$message({
@@ -105,7 +111,7 @@ export default {
     border: 1px solid red;
   }
   .result-list {
-    width: 1000px;
+    width: 900px;
     padding-left: 220px;
     margin-top: 20px;
     /* margin-left: -210px; */
@@ -195,6 +201,7 @@ export default {
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 30px;
     border: #fff 2px solid;
   }
   @keyframes add-bor{
@@ -249,6 +256,16 @@ export default {
 .result-item:hover{
   border-radius: 5px;
 }
+.result-item:hover > .item-cover >.item-cover-image{
+  animation: image-ani 0.4s linear;
+  transform: scale(1.1, 1.1);
+}
+.result-item:hover > .item-content > .article-title{
+  color: #000;
+}
+.result-item:hover > .item-content > .article-content{
+  color: #000;
+}
 .item-cover{
   width: 160px;
   height: 110px;
@@ -263,6 +280,7 @@ export default {
   padding-top: 10px;
 }
 .item-cover-image{
+  border-radius: 6px;
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -274,10 +292,6 @@ export default {
   100%{
     transform: scale(1.1, 1.1);
   }
-}
-.item-cover-image:hover{
-  animation: image-ani 0.4s linear;
-  transform: scale(1.1, 1.1);
 }
 .el-tabs{
   outline: none;
