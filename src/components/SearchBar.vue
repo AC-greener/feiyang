@@ -3,18 +3,6 @@
   <div class="add-article">
   </div>
   <div class="searchbox">
-    <!-- <el-dropdown :hide-on-click="false" class="btn-menu">
-      <span class="el-dropdown-link">
-        知识<i class="el-icon-arrow-down el-icon--right"></i>
-      </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>知识</el-dropdown-item>
-        <el-dropdown-item>方案</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown> -->
-    <!-- <input  v-model="keywords" id="search" type="text"  autocomplete="off"
-    placeholder="探索知识世界，从这里开始..." name="search" class="search"
-    @keyup.enter="handleSearch"> -->
     <el-autocomplete
       class="search-input"
       v-model="keywords"
@@ -27,6 +15,21 @@
       <i class="el-icon-search search-icon"></i>
     </button>
   </div>
+  <!-- 热门推荐 -->
+  <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
+    <el-col :span="11" >
+      <span>知奇然热搜榜:</span>
+      <div v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+        {{index+1}}.&nbsp;&nbsp;{{item.title}}
+      </div>
+    </el-col>
+    <el-col :span="11" >
+      <span>知奇然最新榜:</span>
+      <div v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
+        {{index+1}}.&nbsp;&nbsp;{{item.title}}
+      </div>
+    </el-col>
+  </el-row>
   <div class="result-list">
     <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
       <div class="item-cover" @click="toArticleDetail(item.id)">
@@ -59,6 +62,7 @@
 import { Container, Button, Row, Autocomplete, Pagination } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
+import aioxs from 'axios';
 export default {
   components: {
     'el-container': Container,
@@ -70,7 +74,6 @@ export default {
   name: 'SearchBar',
   data() {
     return {
-      
       keywords: '',
       activeName: 'hot',
       baseUrl: `${BASE_URL}`,
@@ -84,9 +87,39 @@ export default {
     }
   },
   mounted() {
+    this.getHotList()
+    this.getLatestList()
     this.searchResultList = this.$store.state.searchHistory
   },
   methods: {
+    getHotList() {
+      aioxs.get(`${BASE_URL}/ranking?type=hot`)
+        .then(res => {
+          if(res.data.data) {
+            this.hostList = res.data.data.reverse().slice(0, 10)
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: 'error'
+          })
+        })
+    },
+    getLatestList() {
+      aioxs.get(`${BASE_URL}/ranking?type=latest`)
+        .then(res => {
+          if(res.data.data) {
+            this.latestList = res.data.data.reverse().slice(0, 10)
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: 'error'
+          })
+        })
+    },
     getSearchRecommend(keyword, cb) {
       axios.post(`${BASE_URL}/search/hints`, {
         keyword
@@ -157,6 +190,32 @@ export default {
 </script>
 
 <style scoped >
+  .icon {
+      width: 1em; height: 1em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+  }
+  .hot-list {
+    width: 600px;
+    font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
+    color: #22222280;
+    /* padding: 10px; */
+  }
+  .hot-list span {
+    color: #222222a6;
+    margin-left: -10px;
+    font-weight: 400;
+    font-size: 19px;
+  }
+  .hot-list div{
+    font-size: 14px;
+    cursor: pointer;
+    margin: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .search-container .search-paginaton, .search-container .search-paginaton button{
     background: #50a392;
   }
@@ -165,6 +224,7 @@ export default {
     margin-top: 5px;
   }
   .border {
+    border: 1px solid red;
   }
   .result-list {
     width: 900px;
@@ -265,17 +325,17 @@ export default {
       border: #fff 2px solid;
     }
     100%{
-      border: #000 2px solid;
+      border: #251e1eb0 2px solid;
     }
   }
   .searchbox:hover {
     animation: add-bor 0.5s linear;
-    border: #000 2px solid;
+    border: #251e1eb0 2px solid;
   }
  
   .searchbox:active {
     animation: add-bor 0.5s linear;
-    border: #000 2px solid;
+    border: #251e1eb0 2px solid;
   }
   .searchbox>.btn-menu {
     padding: 20px 16px 16px 16px;
@@ -357,8 +417,7 @@ export default {
   font-size: 30px;
 }
 .search-icon:hover{
-  font-size: 30px;
-  font-weight: 900;
+  transform: scale(1.1);
 }
 .article-author{
   color: #222;
