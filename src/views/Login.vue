@@ -23,7 +23,7 @@
       <form class="form">
         <input required v-model='loginForm.username' type="text" placeholder="Username">
         <input required v-model='loginForm.password' type="password" placeholder="Password">
-        <button @click="login"  >Login</button>
+        <button @click="login" >Login</button>
       </form>
     </div>
     <ul class="bg-bubbles">

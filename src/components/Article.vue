@@ -2,14 +2,14 @@
 <el-container class="article-container">
   <el-header>
   </el-header>
-  <div class="like" @click='handleLikeClick'>
-    <svg class="icon guzhang" aria-hidden="true">
-      <use xlink:href="#icon-guzhang2"></use>
-    </svg>
-    <span style="color: rgb(117, 117, 117">{{this.star}}</span>
-  </div>
-  <el-main class="article-main">
-    <el-row class="article-row" :gutter="10">
+  <el-main class="article-main ">
+    <div class="like" @click='handleLikeClick'>
+      <svg style="fille: red; color: blue" class="icon guzhang" aria-hidden="true">
+        <use xlink:href="#icon-guzhang2"></use>
+      </svg>
+      <span style="margin-left: 36px;margin-top: 11px;font-size: 14px;color: rgb(117, 117, 117">{{this.star}}</span>
+    </div>
+    <el-row class="article-row " :gutter="10">
       <el-col :span="24">
         <h1 class="article-title">
           {{this.title}}
@@ -74,7 +74,10 @@ export default {
     handleLikeClick() {
       axios.get(`${BASE_URL}/article/like?id=${this.id}`)
         .then(res => {
-
+          if(res.data.status !== 200) {
+            return
+          }
+          this.getArticleInfo()
         })
         .catch(err => {
           console.log(err)
@@ -85,6 +88,7 @@ export default {
 </script>
 
 <style scoped >
+
   .icon {
     cursor: pointer;
     width: 1em;
@@ -117,19 +121,26 @@ export default {
     border: 1px solid red;
   }
   .article-main {
-    width: 800px;
-    /* width: 62%; */
+    width: 70%;
+    padding-left: 150px;
+    padding-right: 150px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 50px;
+    position: relative;
   }
-  .article-container {
-   position: relative;
+
+  .article-row {
+    position: relative;
   }
-  .article-container .like {
+  .article-main .like {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 156px;
+  }
+  .article-main .like * {
     position: fixed;
-    top: 260px;
-    left: 210px;
   }
 </style>
