@@ -37,8 +37,5 @@ export default {
   .search-paginaton  .el-pager {
     background: #50a392;
   }
-  .search-container .search-paginaton  .el-pager .active {
-    /* color: red; */
-  }
 </style>
 
