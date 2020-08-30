@@ -72,8 +72,16 @@ export default {
       axios.get(`${BASE_URL}/article/like?id=${this.id}`)
         .then(res => {
           if(res.data.status !== 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
             return
           }
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          })
           this.getArticleInfo()
         })
         .catch(err => {
