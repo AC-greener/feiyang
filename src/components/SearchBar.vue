@@ -216,7 +216,7 @@ export default {
     overflow: hidden;
   }
   .search-container {
-    min-height: 900px;
+    min-height: 800px;
     background: #50a392;
     position: relative;
     display: flex;

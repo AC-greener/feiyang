@@ -1,6 +1,6 @@
 <template>
   <div class="user-container">
-    <div style="height:130px"></div>
+    <div style="height:70px"></div>
     <div class="user-main-body">
 
       <el-row :gutter="20">

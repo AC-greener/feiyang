@@ -1,5 +1,5 @@
 <template>
-<el-container style="padding-top: 100px">
+<el-container style="padding-top: 50px">
   <!-- <el-header>
   </el-header> -->
   <el-main style="padding-bottom: 0">
@@ -28,7 +28,7 @@
     </el-form>
     <editor 
       :options="defaultOptions"
-      height="435px"
+      height="535px"
       @change="onEditorChange"
       ref="toastuiEditor"
     />

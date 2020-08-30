@@ -3,9 +3,8 @@
     <div class="logo">
       <div style="display:inline-block;"  @click="home">
         <div class="logo-image">
-          <div class="logo-image-inner">知</div>
+          <i class="el-icon-s-home"></i> 知奇然
         </div>
-        <div class="sub-title">知奇然 知其所以然</div>
       </div>
       <el-popover
       placement="bottom"
@@ -131,12 +130,16 @@ export default {
  }
  .logo-image{
    background-color:#50a392;
-   height: 54px;
    border-radius: 100px;
+   padding: 4px 10px;
    border: #50a392 2px solid;
-   width:54px;
-   margin-left: 70px;
+   margin-left: 40px;
+   color: #fff;
+   font-size: 23px;
    margin-top: 30px;
+ }
+ .logo-image:hover{
+   color: #104352;
  }
  .sub-title{
    margin-left: 30px;
@@ -147,7 +150,6 @@ export default {
    font-size: 15px;
  }
  .user_avatar{
-   width: 50px;
    height: 50px;
    line-height: 50px;
    text-align: center;
@@ -157,16 +159,16 @@ export default {
    border-style: none;
    background-color: #50a3a2;
    border-radius: 100px;
-   border: #fff 2px solid;
    margin-top: 30px;
    margin-right: 10px;
-   padding: 0;
+   padding: 0 10px;
  }
  .user_avatar:hover{
-   background-color: rgb(90,132,200);
+   color: #104352;
  }
  .list-button-item{
    width: 100%;
+   font-size: 16px;
    height: 40px;
    background-color: #50a3a2;
    margin: 5px 0 0 0;
