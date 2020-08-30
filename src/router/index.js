@@ -30,6 +30,11 @@ export default new Router({
       path: '/edit',
       name: 'edit',
       component: () => import('../views/Edit.vue')
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('../views/User.vue')
     }
   ]
 })
