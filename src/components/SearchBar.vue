@@ -35,6 +35,7 @@
       <div class="item-content" @click="toArticleDetail(item.id)" >
         <div class="article-title">{{ item.title }}</div>
         <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
+        <div class="article-author">作者：{{item.author}} 时间：{{item.time}}</div>
       </div>
     </el-row>
   </div>
@@ -122,7 +123,6 @@ export default {
           })
           return
         }
-        
         this.searchResultList = res.data.data.data
         this.totalLength = res.data.data.count
         this.$store.commit('changeSearchHistory', {
@@ -306,10 +306,8 @@ export default {
   display: inline-block;
   margin-left: 30px;
   vertical-align: top;
-  padding-top: 10px;
 }
 .item-cover-image{
-  border-radius: 6px;
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -345,5 +343,9 @@ export default {
 .search-icon:hover{
   font-size: 30px;
   font-weight: 900;
+}
+.article-author{
+  color: #222;
+  font-size: 15px;
 }
 </style>
