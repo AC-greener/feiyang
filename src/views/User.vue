@@ -5,7 +5,7 @@
 
       <el-row :gutter="20">
 
-        <el-col :span="11">
+        <el-col :span="0">
           <div class="user-info" style="padding:0">
             <el-calendar :range="['2019-07-04', '2019-09-24']">
               <template
@@ -20,12 +20,13 @@
           </div>
         </el-col>
 
-        <el-col :span="13">
+        <el-col :span="24">
           <div class="user-info" style="padding: 20px;">
             <el-row :gutter="20">
               <el-col :span="8">
                 <div>
-                  <div class="user-avatar"></div>
+                  <div class="user-avatar"><i class="el-icon-user-solid" 
+                  style="font-size:70px;line-height:90px;color:#50a392"></i></div>
                   <div class="user-name">{{user}}</div>
                 </div>
               </el-col>
@@ -34,17 +35,17 @@
                 <div class="user-data">
                   <el-row :gutter="20">
                     <el-col :span="8">
-                      <div class="data-num">123</div>
+                      <div class="data-num">0</div>
                       <div class="data-name">总文章数</div>
                     </el-col>
                     <el-col :span="8">
                       <div class="data-num" style="color:#ff3300;">
-                        {{counting.length == 0 ? 'NaN' : counting[now]}}
+                        0
                       </div>
                       <div class="data-name">今日提交</div>
                     </el-col>
                     <el-col :span="8">
-                      <div class="data-num" style="color: #50a392;">1052</div>
+                      <div class="data-num" style="color: #50a392;">0</div>
                       <div class="data-name">收到点赞</div>
                     </el-col>
                   </el-row>
@@ -85,65 +86,50 @@ export default {
   data() {
     return {
       user: localStorage.getItem('user'),
-      resDate: [],
+      resDate: [{
+        "date":"2020-08-30","content":"+0"
+      }],
       counting: [],
       colors: ['#888','#409EFF','#67C23A', '#ff3300'],
       dict: ['待','审','过','撤'],
       page: 1,
       size: 10,
-      now: dateFormat("YYYY-mm-dd", new Date()),
       historyArticleList: []
     }
   },
   mounted(){
-    axios.post(`${BASE_URL}/article/history`, {
-      page: this.page,
-      size: this.size
-    }).then(res =>{
-      if(res.data.status !== 200) {
-          this.$message({
-            message: res.data.message,
-            type: 'error'
-          })
-          return
-        }
-        this.historyArticleList = res.data.data.data.article_data
-        this.counting = res.data.data.data.date_count
-        for (let i in res.data.data.data.date_count){
-          let cnt = res.data.data.data.date_count[i]
-          if (cnt > 0){
-            this.resDate.push({
-              "date": i,
-              "content":  '+' + cnt
-            })
-          }
-        }
-    }).catch(err => {
-      this.$message({
-        message: err,
-        type: 'error'
-      })
-    })
+    this.loadData()
   },
   methods: {
-    dateFormat(fmt, date) {
-        let ret;
-        const opt = {
-            "Y+": date.getFullYear().toString(),        // 年
-            "m+": (date.getMonth() + 1).toString(),     // 月
-            "d+": date.getDate().toString(),            // 日
-            "H+": date.getHours().toString(),           // 时
-            "M+": date.getMinutes().toString(),         // 分
-            "S+": date.getSeconds().toString()          // 秒
-            // 有其他格式化字符需求可以继续添加，必须转化成字符串
-        };
-        for (let k in opt) {
-            ret = new RegExp("(" + k + ")").exec(fmt);
-            if (ret) {
-                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-            };
-        };
-        return fmt;
+    loadData(){
+      axios.post(`${BASE_URL}/article/history`, {
+        page: this.page,
+        size: this.size
+      }).then(res =>{
+        if(res.data.status !== 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+            return
+          }
+          this.historyArticleList = res.data.data.data.article_data
+          this.counting = res.data.data.data.date_count
+          for (let i in res.data.data.data.date_count){
+            let cnt = res.data.data.data.date_count[i]
+            if (cnt > 0){
+              this.resDate.push({
+                "date": i,
+                "content":  '+' + cnt
+              })
+            }
+          }
+      }).catch(err => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
     },
     dealMyDate(v) {
       let len = this.resDate.length
@@ -166,8 +152,8 @@ export default {
   min-height: 900px;
 }
 .user-main-body{
-  width: 96%;
-  margin-left: 2%;
+  width: 70%;
+  margin-left: 15%;
 }
 .grid-content {
   border-radius: 4px;
@@ -189,7 +175,7 @@ export default {
 .user-avatar{
   width: 90px;
   height: 90px;
-  background-color: #ccc;
+  background-color: #ddd;
   border-radius: 6px;
   margin: 0 auto;
 }
