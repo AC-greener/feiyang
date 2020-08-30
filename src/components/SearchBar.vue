@@ -124,7 +124,7 @@ export default {
         }
         
         this.searchResultList = res.data.data.data
-        this.totalLength = this.searchResultList.length
+        this.totalLength = res.data.data.count
         this.$store.commit('changeSearchHistory', {
           searchHistory: this.searchResultList
         })

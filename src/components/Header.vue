@@ -9,7 +9,6 @@
       </div>
       <el-popover
       placement="bottom"
-      title="知奇然用户"
       width="200"
       trigger="hover">
         <div>
@@ -119,12 +118,13 @@ export default {
 .header .logo {
   z-index: 2;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   top: -15px;
   width: 100%;
   left: -18px;
   border-style: none;
   height: 80px;
+  /* background: #50a392; */
 }
  .logo-icon {
    width: 130px;

@@ -117,8 +117,7 @@ export default {
     border: 1px solid red;
   }
   .article-main {
-    width: 800px;
-    /* width: 62%; */
+    width: 1000px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
