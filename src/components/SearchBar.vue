@@ -10,7 +10,7 @@
   <div class="searchbox">
     <button class="btn-menu">
     </button>
-    <input v-model="keywords" id="search" type="text" placeholder="Search..." name="search" class="search">
+    <input @change="handleSearch" v-model="keywords" id="search" type="text" placeholder="Search..." name="search" class="search">
     <button class="btn-search" @click="handleSearch">
       <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
     </button>
@@ -53,9 +53,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state)
   },
-
   methods: {
     toArticleDetail(id) {
       this.$router.push('/article/' + id)
