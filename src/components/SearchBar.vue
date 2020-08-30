@@ -34,16 +34,20 @@
       </div>
       <div class="item-content" @click="toArticleDetail(item.id)" >
         <div class="article-title">{{ item.title }}</div>
-        <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
+        <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '').replace(/&nbsp;/ig, '')}}</div>
       </div>
     </el-row>
   </div>
-  <!-- <el-pagination
+  <el-pagination
+    :hide-on-single-page="1"
+    class="search-paginaton"
     @current-change='handleCurrentChange'
+    @prev-click="handleCurrentChange"
+    @next-click="handleCurrentChange"
     :page-size="10"
     layout="prev, pager, next"
     :total="this.totalLength">
-  </el-pagination> -->
+  </el-pagination>
   </el-container>
 </template>
 
@@ -62,6 +66,7 @@ export default {
   name: 'SearchBar',
   data() {
     return {
+      
       keywords: '',
       activeName: 'hot',
       baseUrl: `${BASE_URL}`,
@@ -69,7 +74,7 @@ export default {
       searchResultList: [],
       hostList:[],
       latestList: [],
-      totalLength: 100,
+      totalLength: 1,
       currentPage: 1
     }
   },
@@ -145,6 +150,9 @@ export default {
 </script>
 
 <style scoped >
+  .search-container .search-paginaton, .search-container .search-paginaton button{
+    background: #50a392;
+  }
   .search-input {
     margin-left: 3px;
     margin-top: 5px;
@@ -169,7 +177,7 @@ export default {
     font-size: 24px!important;
     font-weight: 600px;
     height: 40px;
-    width: 600px;
+    width: 700px;
     color: rgb(18 10 18 / 74%);
     overflow: hidden;
     text-overflow:ellipsis;
@@ -182,6 +190,7 @@ export default {
   .article-content {
     position: relative;
     font-size: 16px;
+    width: 700px;
     font-weight: 400px;
     color: rgba(0,0,0,.54);
     line-height: 23px;
@@ -208,6 +217,7 @@ export default {
     /* justify-content: center;    */
     flex-direction: column; 
     align-items: center;
+    padding-bottom: 100px;
   }
   .add-article {
     position: absolute;

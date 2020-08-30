@@ -31,5 +31,14 @@ export default {
   .search-input .el-input__inner:hover {
     border: none;
   }
+  .search-container .search-paginaton, .search-container .search-paginaton button{
+    background: #50a392;
+  }
+  .search-paginaton  .el-pager {
+    background: #50a392;
+  }
+  .search-container .search-paginaton  .el-pager .active {
+    /* color: red; */
+  }
 </style>
 
