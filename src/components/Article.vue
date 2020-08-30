@@ -2,14 +2,12 @@
 <el-container class="article-container">
   <el-header>
   </el-header>
-  <el-main class="article-main ">
-    <div class="like" @click='handleLikeClick'>
-      <svg style="fille: red; color: blue" class="icon guzhang" aria-hidden="true">
-        <use xlink:href="#icon-guzhang2"></use>
-      </svg>
-      <span style="margin-left: 36px;margin-top: 11px;font-size: 14px;color: rgb(117, 117, 117">{{this.star}}</span>
-    </div>
-    <el-row class="article-row " :gutter="10">
+  <div class="like" @click='handleLikeClick'>
+    <i class="el-icon-s-opportunity" style="font-size:30px;line-height:55px;"></i>
+    <span>{{this.star}} 人喜欢</span>
+  </div>
+  <el-main class="article-main">
+    <el-row class="article-row" :gutter="10">
       <el-col :span="24">
         <h1 class="article-title">
           {{this.title}}
@@ -23,7 +21,6 @@
   <el-footer>
   </el-footer>
 </el-container>
-
 </template>
 
 <script>
@@ -88,7 +85,6 @@ export default {
 </script>
 
 <style scoped >
-
   .icon {
     cursor: pointer;
     width: 1em;
@@ -121,26 +117,44 @@ export default {
     border: 1px solid red;
   }
   .article-main {
-    width: 70%;
-    padding-left: 150px;
-    padding-right: 150px;
+    width: 800px;
+    /* width: 62%; */
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 50px;
-    position: relative;
   }
-
-  .article-row {
-    position: relative;
+  .article-container {
+   position: relative;
   }
-  .article-main .like {
-    z-index: 1;
-    position: absolute;
-    left: 0;
-    top: 156px;
-  }
-  .article-main .like * {
+  .article-container .like {
     position: fixed;
+    top: 250px;
+    padding-right: 10px;
+    height: 60px;
+    border: #50a3a2 solid 2px;
+    text-align: start;
+    padding-left: 5px;
+    font-size: 20px;
+    color: #50a3a2;
+    vertical-align: top;
+    border-radius: 8px;
+    left: 50px;
+    cursor: pointer;
+  }
+  @keyframes like-ani{
+    0%{
+      background-color: #fff;
+      color: #50a3a2;
+    }
+    100%{
+      background-color: #50a3a2;
+      color: #fff;
+    }
+  }
+  .like:hover{
+    animation: like-ani 0.5s linear;
+    background-color: #50a3a2;
+    color: #fff;
   }
 </style>
