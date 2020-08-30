@@ -96,10 +96,8 @@ export default {
   .icon.guzhang {
     width: 2em;
     height: 2em;
-    fill: red;
   }
   .guzhang.active {
-    fill: blue;
   }
  
   h1.article-title { 
@@ -114,7 +112,6 @@ export default {
     line-height: 32px;
   }
   .border {
-    border: 1px solid red;
   }
   .article-main {
     width: 1000px;

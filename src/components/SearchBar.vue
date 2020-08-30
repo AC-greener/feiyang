@@ -39,12 +39,19 @@
       </div>
     </el-row>
   </div>
-  <!-- <el-pagination
+  <div v-show="showImptyTips">
+    没有找到您要搜索的内容，换个词试一试吧~
+  </div>
+  <el-pagination
+    :hide-on-single-page="1"
+    class="search-paginaton"
     @current-change='handleCurrentChange'
+    @prev-click="handleCurrentChange"
+    @next-click="handleCurrentChange"
     :page-size="10"
     layout="prev, pager, next"
     :total="this.totalLength">
-  </el-pagination> -->
+  </el-pagination>
   </el-container>
 </template>
 
@@ -63,6 +70,7 @@ export default {
   name: 'SearchBar',
   data() {
     return {
+      
       keywords: '',
       activeName: 'hot',
       baseUrl: `${BASE_URL}`,
@@ -70,8 +78,9 @@ export default {
       searchResultList: [],
       hostList:[],
       latestList: [],
-      totalLength: 100,
-      currentPage: 1
+      totalLength: 1,
+      currentPage: 1,
+      showImptyTips: false
     }
   },
   mounted() {
@@ -125,6 +134,9 @@ export default {
         }
         this.searchResultList = res.data.data.data
         this.totalLength = res.data.data.count
+        if(this.totalLength === 0) {
+          this.showImptyTips = true
+        }
         this.$store.commit('changeSearchHistory', {
           searchHistory: this.searchResultList
         })
@@ -145,12 +157,14 @@ export default {
 </script>
 
 <style scoped >
+  .search-container .search-paginaton, .search-container .search-paginaton button{
+    background: #50a392;
+  }
   .search-input {
     margin-left: 3px;
     margin-top: 5px;
   }
   .border {
-    border: 1px solid red;
   }
   .result-list {
     width: 900px;
@@ -169,7 +183,7 @@ export default {
     font-size: 24px!important;
     font-weight: 600px;
     height: 40px;
-    width: 600px;
+    width: 700px;
     color: rgb(18 10 18 / 74%);
     overflow: hidden;
     text-overflow:ellipsis;
@@ -182,6 +196,7 @@ export default {
   .article-content {
     position: relative;
     font-size: 16px;
+    width: 700px;
     font-weight: 400px;
     color: rgba(0,0,0,.54);
     line-height: 23px;
@@ -208,6 +223,7 @@ export default {
     /* justify-content: center;    */
     flex-direction: column; 
     align-items: center;
+    padding-bottom: 100px;
   }
   .add-article {
     position: absolute;

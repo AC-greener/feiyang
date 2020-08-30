@@ -9,7 +9,7 @@
         </div>
         <input  v-model='registForm.code' type="text" placeholder="验证码">
         <input v-model='registForm.password' type="password" placeholder="Password">
-        <button @click="regist"  >Regist</button>
+        <button @click="regist">Regist</button>
       </form>
     </div>
     <ul class="bg-bubbles">
