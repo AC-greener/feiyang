@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 import { Row, Col, Container, Header, Footer ,Main } from 'element-ui';
 export default {
@@ -53,6 +53,13 @@ export default {
     getArticleInfo() {
       axios.get(`${BASE_URL}/article?id=${this.id}`)
         .then(res => {
+          if(res.data.status !== 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+            return
+          }
           this.title = res.data.data.title
           this.content = res.data.data.content
           this.star = res.data.data.star

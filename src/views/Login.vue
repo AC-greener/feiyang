@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import axios from '../server/axios'
 import { Form, FormItem } from 'element-ui'
 import BASE_URL from '@/server/config';
 export default {
@@ -69,10 +70,19 @@ export default {
         password: this.loginForm.password
       })
       .then(res => {
+        if(res.data.status !== 200) {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+          return
+        }
         axios.defaults.headers.common['Authorization'] = res.data.data
         this.$store.commit('changeUserInfo', {
           username: this.loginForm.username
         })
+        localStorage.setItem('user', this.loginForm.username)
+        localStorage.setItem('token', res.data.data)
         setTimeout(() => {
           this.$router.push('/')
         }, 1000)
@@ -116,7 +126,7 @@ export default {
   overflow: hidden;
 }
 .wrapper.form-success .container h1 {
-  /* transform: translateY(85px); */
+  transform: translateY(85px);
 }
 .container {
   margin-top: -100px;

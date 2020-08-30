@@ -26,7 +26,7 @@
 
 <script>
 import { Container, Button, Row } from 'element-ui'
-import axios from 'axios'
+import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 export default {
   components: {
@@ -69,6 +69,13 @@ export default {
         size: 10,
         page: 1
       }).then(res => {
+        if(res.data.status !== 200) {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+          return
+        }
         this.searchResultList = res.data.data.data
       }).catch(err => {
         this.$message({
