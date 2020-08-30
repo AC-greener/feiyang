@@ -122,7 +122,7 @@ export default {
   .result-item {
     margin-bottom: 15px;
     border: rgba(0,0,0,0) solid 1px;
-    padding: 5px 30px;
+    padding: 0 30px;
     cursor: pointer;
   }
   .article-title {
