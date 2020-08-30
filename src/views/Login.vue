@@ -23,7 +23,7 @@
       <form class="form">
         <input required v-model='loginForm.username' type="text" placeholder="Username">
         <input required v-model='loginForm.password' type="password" placeholder="Password">
-        <button @click="login"  >Login</button>
+        <button @click="login"  :loading='loginForm.loading'>Login</button>
       </form>
     </div>
     <ul class="bg-bubbles">
@@ -56,7 +56,8 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        loading: false
       }
     }
   },
@@ -65,11 +66,13 @@ export default {
   },
   methods: {
     login() {
+      this.loginForm.loading = true
       axios.post(`${BASE_URL}/login`, {
         user: this.loginForm.username,
         password: this.loginForm.password
       })
       .then(res => {
+        this.loginForm.loading = false
         if(res.data.status !== 200) {
           this.$message({
             message: res.data.message,
@@ -92,6 +95,7 @@ export default {
         })
       })
       .catch(err => {
+        this.loginForm.loading = false
         this.$message({
           message: err,
           type: 'error'

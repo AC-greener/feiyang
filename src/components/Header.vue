@@ -12,24 +12,24 @@
       title="知奇然用户"
       width="200"
       trigger="hover">
-      <el-content>
-        <el-button class="list-button-item" type="primary" v-if="hasLogin">
-            <i class="el-icon-promotion icon"></i> 分享知识
-        </el-button>
-        <el-button class="list-button-item" type="primary" v-if="!hasLogin"
-        @click="login">
-            <i class="el-icon-s-help icon"></i> 用户登录
-        </el-button>
-        <el-button class="list-button-item" type="default" v-if="!hasLogin"
-        @click="register">
-            <i class="el-icon-s-custom icon"></i> 注册账号
-        </el-button>
-        <el-button class="list-button-item" type="default" v-if="hasLogin">
-            <i class="el-icon-s-opportunity icon"></i> 退出登录
-        </el-button>
-      </el-content>
-      <div class="user_avatar" slot="reference"><i class="el-icon-user-solid"></i></div>
-    </el-popover>
+        <el-content>
+          <el-button @click="editArticle" class="list-button-item" type="primary" v-if="hasLogin">
+              <i class="el-icon-promotion icon"></i> 分享知识
+          </el-button>
+          <el-button class="list-button-item" type="primary" v-if="!hasLogin"
+          @click="login">
+              <i class="el-icon-s-help icon"></i> 用户登录
+          </el-button>
+          <el-button class="list-button-item" type="default" v-if="!hasLogin"
+          @click="register">
+              <i class="el-icon-s-custom icon"></i> 注册账号
+          </el-button>
+          <el-button class="list-button-item" type="default" v-if="hasLogin">
+              <i class="el-icon-s-opportunity icon"></i> 退出登录
+          </el-button>
+        </el-content>
+        <div class="user_avatar" slot="reference"><i class="el-icon-user-solid"></i></div>
+      </el-popover>
     </div>
   </div>
 </template>
@@ -39,8 +39,11 @@ export default {
   name: 'Header',
   data() {
     return {
-      hasLogin: !!this.$store.userInfo.username
+      hasLogin: !!this.$store.state.userinfo.username
     }
+  },
+  mounted() {
+    console.log(this.hasLogin)
   },
   methods: {
     home(){
@@ -51,6 +54,9 @@ export default {
     },
     register(){
       this.$router.push('/regist')
+    },
+    editArticle() {
+      this.$router.push('/edit')
     }
   }
 }
@@ -71,6 +77,7 @@ export default {
   width: 100%;
   left: -18px;
   border-style: none;
+  height: 80px;
 }
  .logo-icon {
    width: 130px;
@@ -108,7 +115,7 @@ export default {
    margin-right: 20px;
    padding: 0;
  }
- user_avatar:hover{
+ .user_avatar:hover{
    background-color: #50a392;
  }
  .list-button-item{

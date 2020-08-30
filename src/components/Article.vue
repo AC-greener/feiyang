@@ -21,7 +21,6 @@
   <el-footer>
   </el-footer>
 </el-container>
-
 </template>
 
 <script>
@@ -72,7 +71,10 @@ export default {
     handleLikeClick() {
       axios.get(`${BASE_URL}/article/like?id=${this.id}`)
         .then(res => {
-
+          if(res.data.status !== 200) {
+            return
+          }
+          this.getArticleInfo()
         })
         .catch(err => {
           console.log(err)

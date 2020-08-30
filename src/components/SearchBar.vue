@@ -12,7 +12,7 @@
         <el-dropdown-item>方案</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <input v-model="keywords" id="search" type="text"
+    <input  v-model="keywords" id="search" type="text"  autocomplete="off"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
     autocomplete="false"
     @keyup.enter="handleSearch">
@@ -241,18 +241,6 @@ export default {
   }
 
 
-@keyframes slideInUp {
-  from {
-    -webkit-transform: translate3d(0, 15%, 0);
-    transform: translate3d(0, 15%, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
 .result-item:hover{
   border-radius: 5px;
 }
