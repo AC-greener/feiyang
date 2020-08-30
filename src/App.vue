@@ -22,11 +22,14 @@ export default {
     color: #50a392 !important;
   }
   .search-input .el-input__inner {
-    height: 60px;
+    height: 55px;
     font-size: 16px;
     border: none;
-    width: 300px;
-    /* padding: 20px 10px!important; */
+    width: 374px;
+    padding-left: 30px;
+  }
+  .search-input .el-input__inner:hover {
+    border: none;
   }
 </style>
 

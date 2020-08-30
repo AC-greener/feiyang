@@ -5,7 +5,7 @@
         <div class="logo-image">
           <div class="logo-image-inner">知</div>
         </div>
-        <div class="sub-title">知奇然 知其所以然.</div>
+        <div class="sub-title">知奇然 知其所以然</div>
       </div>
       <el-popover
       placement="bottom"
@@ -85,7 +85,7 @@ export default {
           }
           this.$message({
             message: '退出成功',
-            type: 'error'
+            type: 'success'
           })
           localStorage.removeItem('user')
           localStorage.removeItem('token')

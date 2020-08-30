@@ -3,7 +3,7 @@
   <div class="add-article">
   </div>
   <div class="searchbox">
-    <el-dropdown :hide-on-click="false" class="btn-menu">
+    <!-- <el-dropdown :hide-on-click="false" class="btn-menu">
       <span class="el-dropdown-link">
         知识<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -11,7 +11,7 @@
         <el-dropdown-item>知识</el-dropdown-item>
         <el-dropdown-item>方案</el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown>
+    </el-dropdown> -->
     <!-- <input  v-model="keywords" id="search" type="text"  autocomplete="off"
     placeholder="探索知识世界，从这里开始..." name="search" class="search"
     @keyup.enter="handleSearch"> -->
@@ -29,20 +29,26 @@
   </div>
   <div class="result-list">
     <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
-      <div class="item-cover">
+      <div class="item-cover" @click="toArticleDetail(item.id)">
         <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
       </div>
       <div class="item-content" @click="toArticleDetail(item.id)" >
         <div class="article-title">{{ item.title }}</div>
-        <div class="article-content" v-html="item.content"></div>
+        <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
       </div>
     </el-row>
   </div>
-</el-container>
+  <!-- <el-pagination
+    @current-change='handleCurrentChange'
+    :page-size="10"
+    layout="prev, pager, next"
+    :total="this.totalLength">
+  </el-pagination> -->
+  </el-container>
 </template>
 
 <script>
-import { Container, Button, Row, Autocomplete } from 'element-ui'
+import { Container, Button, Row, Autocomplete, Pagination } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
 export default {
@@ -50,7 +56,8 @@ export default {
     'el-container': Container,
     'el-button': Button,
     'el-row': Row,
-    'el-autocomplete': Autocomplete
+    'el-autocomplete': Autocomplete,
+    'el-pagination': Pagination
   },
   name: 'SearchBar',
   data() {
@@ -61,7 +68,9 @@ export default {
       loading: false,
       searchResultList: [],
       hostList:[],
-      latestList: []
+      latestList: [],
+      totalLength: 100,
+      currentPage: 1
     }
   },
   mounted() {
@@ -103,7 +112,7 @@ export default {
       axios.post(`${BASE_URL}/search`, {
         keyword: this.keywords,
         size: 10,
-        page: 1
+        page: this.currentPage
       }).then(res => {
         this.loading = false
         if(res.data.status !== 200) {
@@ -115,6 +124,7 @@ export default {
         }
         
         this.searchResultList = res.data.data.data
+        this.totalLength = this.searchResultList.length
         this.$store.commit('changeSearchHistory', {
           searchHistory: this.searchResultList
         })
@@ -125,12 +135,20 @@ export default {
           type: 'error'
         })
       })
+    },
+    handleCurrentChange(currentSize) {
+      this.currentPage = currentSize
+      this.handleSearch()
     }
   }
 }
 </script>
 
 <style scoped >
+  .search-input {
+    margin-left: 3px;
+    margin-top: 5px;
+  }
   .border {
     border: 1px solid red;
   }
@@ -238,8 +256,9 @@ export default {
     animation: add-bor 0.5s linear;
     border: #000 2px solid;
   }
+ 
   .searchbox:active {
-    animation: add-bor 0.2s linear;
+    animation: add-bor 0.5s linear;
     border: #000 2px solid;
   }
   .searchbox>.btn-menu {
