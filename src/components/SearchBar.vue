@@ -1,25 +1,29 @@
 <template>
-<el-container class="search-container">
+<el-container class="search-container" v-loading="loading">
   <div class="add-article">
-    <!-- <el-button @click="editArticle"> -->
-      <svg @click="editArticle"  class="icon" aria-hidden="true">
-        <use xlink:href="#icon-fabu"></use>
-      </svg>
-    <!-- </el-button> -->
   </div>
   <div class="searchbox">
     <button class="btn-menu">
     </button>
-    <input v-model="keywords" id="search" type="text" placeholder="Search..." name="search" class="search">
+    <input v-model="keywords" id="search" type="text"
+    placeholder="Search..." name="search" class="search"
+    @keyup.enter="handleSearch">
     <button class="btn-search" @click="handleSearch">
       <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
     </button>
   </div>
   <div class="result-list">
+    <transition name="el-fade-in-linear">
     <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
-      <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
-      <div class="article-content" v-html=item.content></div>
+      <div class="item-cover">
+        <img :src="baseUrl + item.cover" class="item-cover-image">
+      </div>
+      <div class="item-content">
+        <div @click="toArticleDetail(item.id)" class="article-title">{{ item.title }}</div>
+        <div class="article-content" v-html="item.content"></div>
+      </div>
     </el-row>
+    </transition>
   </div>
 </el-container>
 </template>
@@ -38,6 +42,8 @@ export default {
   data() {
     return {
       keywords: '',
+      baseUrl: `${BASE_URL}`,
+      loading: false,
       searchResultList: [
         {
           title: 'nodejs 从入门到放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃放弃11221',
@@ -64,13 +70,20 @@ export default {
       this.$router.push('/edit')
     },
     handleSearch() {
+      if (this.keywords == ''){
+        return
+      }
+      this.loading = true
+      this.searchResultList = []
       axios.post(`${BASE_URL}/search`, {
         keyword: this.keywords,
         size: 10,
         page: 1
       }).then(res => {
+        this.loading = false
         this.searchResultList = res.data.data.data
       }).catch(err => {
+        this.loading = false
         this.$message({
           message: err,
           type: 'error'
@@ -86,13 +99,17 @@ export default {
     border: 1px solid red;
   }
   .result-list {
-    width: 600px;
-    margin-top: 30px;
+    width: 1000px;
+    padding-left: 220px;
+    margin-top: 20px;
     /* margin-left: -210px; */
     overflow: hidden;
   }
   .result-item {
     margin-bottom: 15px;
+    border: rgba(0,0,0,0) solid 1px;
+    padding: 20px 30px;
+    cursor: pointer;
   }
   .article-title {
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
@@ -100,11 +117,14 @@ export default {
     font-weight: 600px;
     height: 40px;
     width: 600px;
-    color: rgb(28 30 48 / 74%);
+    color: rgb(18 10 18 / 74%);
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
     cursor: pointer;
+  }
+  .article-title:hover{
+    text-decoration: underline;
   }
   .article-content {
     position: relative;
@@ -130,7 +150,7 @@ export default {
   }
   .search-container {
     min-height: 900px;
-    background: #50a3a2;
+    background: #eff;
     position: relative;
     display: flex;
     /* justify-content: center;    */
@@ -169,6 +189,13 @@ export default {
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
+    border: #fff 2px solid;
+  }
+  .searchbox:hover {
+    border: #000 2px solid;
+  }
+  .searchbox:active {
+    border: #000 2px solid;
   }
   .searchbox>.btn-menu {
     padding: 16px;
@@ -180,6 +207,7 @@ export default {
   .searchbox>.search {
     border: none;
     width: 100%;
+    font-size: 20px;
   }
 
   .searchbox>.btn-search {
@@ -201,5 +229,36 @@ export default {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
+}
+.result-item:hover{
+  border-radius: 5px;
+}
+.item-cover{
+  width: 160px;
+  height: 120px;
+  display: inline-block;
+  margin-left: -170px;
+  background-color: #eee;
+}
+.item-content{
+  display: inline-block;
+  margin-left: 30px;
+}
+.item-cover-image{
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+}
+@keyframes image-ani{
+  0%{
+    transform: scale(1, 1);
+  }
+  100%{
+    transform: scale(1.1, 1.1);
+  }
+}
+.item-cover-image:hover{
+  animation: image-ani 0.4s linear;
+  transform: scale(1.1, 1.1);
 }
 </style>
