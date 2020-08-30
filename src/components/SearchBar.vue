@@ -35,7 +35,7 @@
       <div class="item-content" @click="toArticleDetail(item.id)" >
         <div class="article-title">{{ item.title }}</div>
         <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
-        <div class="article-author">作者：{{item.author}} 时间：{{item.time}}</div>
+        <div class="article-author">作者：{{item.author}} 时间：{{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0]}}</div>
       </div>
     </el-row>
   </div>
