@@ -276,14 +276,13 @@ export default {
     overflow: hidden;
   }
   .search-container {
-    min-height: 900px;
+    min-height: 800px;
     background: #50a392;
     position: relative;
     display: flex;
-    /* justify-content: center;    */
     flex-direction: column; 
     align-items: center;
-    padding-bottom: 100px;
+    padding-bottom: 60px;
   }
   .add-article {
     position: absolute;
