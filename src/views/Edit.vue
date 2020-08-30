@@ -3,15 +3,27 @@
   <!-- <el-header>
   </el-header> -->
   <el-main>
-    <h1>文章标题:</h1> 
     <el-form :model='articleForm'  ref="articleForm" label-position='left'  class="demo-ruleForm">
       <el-form-item
+        label="文章标题:"
         prop="articleTitle"
         :rules="[
           { required: true, message: '标题不能为空'},
         ]"
       >
         <el-input style='width: 400px' placeholder="请输入文章标题" v-model="articleForm.articleTitle"   autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item 
+        label="文章类型:" 
+        prop="articleType"
+        :rules="[
+          { required: true, message: '标题不能为空'},
+        ]"
+      >
+        <el-radio-group v-model="articleForm.articleType">
+          <el-radio label="1">知识分享</el-radio>
+          <el-radio label="2">问题解决</el-radio> 
+        </el-radio-group>
       </el-form-item>
     </el-form>
     <editor 
@@ -46,6 +58,7 @@ export default {
     return {
       articleForm: {
         articleTitle: '',
+        articleType: ''
       },
       defaultOptions: {
         minHeight: '560px',
@@ -93,7 +106,8 @@ export default {
           axios.post(`${BASE_URL}/article`, {
             title: this.articleForm.articleTitle,
             content: this.getHtml(),
-            author: 'tongtong'
+            author: 'tongtong',
+            article_type: this.articleForm.articleType
           })
             .then(res => {
               if(res.data.status !== 200) {
