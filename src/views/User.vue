@@ -181,8 +181,15 @@ export default {
       this.openCal = true
       this.openUser = true
     },
-    viewDetails(id){
-      this.$router.push('/article/' + id)
+    viewDetails(article){
+      if (article.status == 3){
+        this.$router.push('/article/' + article.id)
+      }else{
+        this.$message({
+          message: '仅支持查看过审文章！',
+          type: 'error'
+        })
+      }
     },
     loadData(){
       this.loading = true
