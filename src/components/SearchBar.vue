@@ -1,7 +1,6 @@
 <template>
-<el-container class="search-container" v-loading="loading">
-  <div class="add-article">
-  </div>
+<el-container class="search-container search-container-bg" v-loading="loading"
+style="background-image: linear-gradient(to top right, #9932CC, blue, #483D8B)">
   <div class="searchbox">
     <el-autocomplete
       class="search-input"
@@ -18,14 +17,16 @@
   <!-- 热门推荐 -->
   <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
     <el-col :span="11" >
-      <span>知奇然热搜榜:</span>
-      <div v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+      <span v-if="hostList.length > 0" style="color:#fff;">知奇然热搜榜:</span>
+      <div v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)"
+      style="color:#fff;font-size:15px;" class="rank-item">
         {{index+1}}.&nbsp;&nbsp;{{item.title}}
       </div>
     </el-col>
     <el-col :span="11" >
-      <span>知奇然最新榜:</span>
-      <div v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
+      <span v-if="latestList.length > 0" style="color:#fff;">知奇然最新榜:</span>
+      <div v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)"
+      style="color:#fff;font-size:15px;" class="rank-item">
         {{index+1}}.&nbsp;&nbsp;{{item.title}}
       </div>
     </el-col>
@@ -91,6 +92,10 @@ export default {
     this.getHotList()
     this.getLatestList()
     this.searchResultList = this.$store.state.searchHistory
+    window.setInterval(function() {
+      this.getHotList()
+      this.getLatestList()
+    },5000)
   },
   methods: {
     getHotList() {
@@ -198,7 +203,8 @@ export default {
       overflow: hidden;
   }
   .hot-list {
-    width: 600px;
+    margin-top: 40px;
+    width: 700px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
     color: #22222280;
     /* padding: 10px; */
@@ -219,6 +225,9 @@ export default {
   }
   .search-container .search-paginaton, .search-container .search-paginaton button{
     background: #50a392;
+  }
+  .search-container-bg{
+    background-image: linear-gradient(to top right, blue, pink);
   }
   .search-input {
     margin-left: 3px;
@@ -422,5 +431,8 @@ export default {
 .article-author{
   color: #222;
   font-size: 15px;
+}
+.rank-item:hover{
+  text-decoration: underline;
 }
 </style>
