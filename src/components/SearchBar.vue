@@ -1,6 +1,9 @@
 <template>
   <el-container class="search-container" v-loading="loading">
-    <div class="searchbox">
+
+    <div style="margin-top: 60px;color: #fff;font-size:130px;font-weight:800"
+    v-show="!searchResultList.length && !showImptyTips">{{now}}</div>
+    <div class="searchbox" :style="!searchResultList.length && !showImptyTips?'':'margin-top:150px;'">
       <el-autocomplete
         class="search-input"
         v-model="keywords"
@@ -15,7 +18,7 @@
     </div>
     <!-- 热门推荐 -->
     <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
-      <el-col :span="11" v-show="hostList.length">
+      <el-col :span="11" v-show="hostList.length" style="margin-left: 70px;">
         <span>知奇然热搜榜:</span>
         <div class='hot-item-wrapper'>
           <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
@@ -80,6 +83,7 @@ export default {
     return {
       keywords: '',
       activeName: 'hot',
+      now: '',
       baseUrl: `${BASE_URL}`,
       loading: false,
       searchResultList: [],
@@ -91,15 +95,35 @@ export default {
     }
   },
   mounted() {
-    this.getHotList()
     this.getLatestList()
+    this.getHotList()
+    this.updateNow()
     this.searchResultList = this.$store.state.searchHistory
-    window.setInterval(function() {
+    window.setInterval(()=> {
+      this.updateNow()
+    },1000)
+    window.setInterval(()=> {
       this.getHotList()
-      this.getLatestList()
-    },5000)
+      this.updateNow()
+    },60000)
   },
   methods: {
+    updateNow(){
+      var today=new Date()
+      var h=today.getHours()
+      var m=today.getMinutes()
+      var s=today.getSeconds()
+      if (h < 10){
+        h = '0' + h
+      }
+      if (m < 10) {
+        m = '0' + m
+      }
+      if (s < 10){
+        s = '0' + s
+      }
+      this.now = h + ':' + m + ':' + s
+    },
     getHotList() {
       aioxs.get(`${BASE_URL}/ranking?type=hot`)
         .then(res => {
@@ -206,9 +230,9 @@ export default {
   }
   .hot-list {
     margin-top: 40px;
-    width: 700px;
+    width: 850px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
-        color: white;
+    color: white;
   }
   .hot-list span {
     color: white;
@@ -323,7 +347,7 @@ export default {
     background: white;
     border-radius: 10px;
     display: flex;
-    margin-top: 150px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 30px;
