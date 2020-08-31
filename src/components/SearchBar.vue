@@ -19,13 +19,13 @@
   <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
     <el-col :span="11" >
       <span>知奇然热搜榜:</span>
-      <div v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+      <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
         {{index+1}}.&nbsp;&nbsp;{{item.title}}
       </div>
     </el-col>
     <el-col :span="11" >
       <span>知奇然最新榜:</span>
-      <div v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
+      <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
         {{index+1}}.&nbsp;&nbsp;{{item.title}}
       </div>
     </el-col>
@@ -204,11 +204,11 @@ export default {
   }
   .hot-list span {
     color: #222222a6;
-    margin-left: -10px;
+    /* margin-left: -10px; */
     font-weight: 400;
     font-size: 19px;
   }
-  .hot-list div{
+  .hot-list .hot-item{
     font-size: 14px;
     cursor: pointer;
     margin: 10px;

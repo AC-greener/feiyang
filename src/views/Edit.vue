@@ -5,7 +5,7 @@
   <el-main style="padding-bottom: 0">
     <el-form :model='articleForm'  ref="articleForm" label-position='left'  class="demo-ruleForm">
       <el-form-item
-        label="文章信息:"
+        label="文章标题:"
         prop="articleTitle"
         style="display:inline-block;"
         :rules="[
@@ -28,7 +28,7 @@
     </el-form>
     <editor 
       :options="defaultOptions"
-      height="535px"
+      height="470px"
       @change="onEditorChange"
       ref="toastuiEditor"
     />
