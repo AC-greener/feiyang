@@ -97,7 +97,7 @@
           <el-col :span="24" v-for="item in historyArticleList" :key="item.id" class="article-item">
             <div class="article-item-box">
              
-              <div class="user-atricle-title" @click="viewDetails(item.id)"> 《{{item.title}}》</div>
+              <div class="user-atricle-title" @click="viewDetails(item)"> 《{{item.title}}》</div>
               <div class="user-article-time">
                 {{user}} 于
                 {{item.created_at.split('T')[0]}} {{item.created_at.split('T')[1].substr(0,8)}} 
@@ -108,7 +108,7 @@
                 </el-tag>
                 <el-button size="small" type="default" @click="deleteArticleFunc(item)">删除</el-button>
               </div>
-              <div @click="viewDetails(item.id)" v-html="item.content" style="max-height:200px" class="user-article-content"></div>
+              <div @click="viewDetails(item)" v-html="item.content" style="max-height:200px" class="user-article-content"></div>
             </div>
           </el-col>
           <el-col>
@@ -248,6 +248,7 @@ export default {
         })
         this.deleteArticle = {}
         this.dialogVisible = false
+        this.loadData()
       }).catch(err => {
         this.$message({
           message: err,

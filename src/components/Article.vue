@@ -2,12 +2,14 @@
 <el-container class="article-container" v-loading="loading">
   <el-header>
   </el-header>
-  <div class="like" @click='handleLikeClick'>
-    <i :class='isLike ? "el-icon-star-on" : "el-icon-star-off"' style="font-size:30px;line-height:55px;"></i>
-    <span style="font-size: 13px">{{this.star}} 人喜欢</span>
-  </div>
+  
   <div v-show="showBackTop" class="backTop" @click="handleBackTopClick">
-    <i class= "el-icon-caret-top" style="font-size:30px;line-height:55px;"></i>
+    <i class= "el-icon-caret-top" style="font-size:40px;line-height:50px;"></i>
+    <div><span style="font-size: 14px;color:#fff">顶部</span></div>
+  </div>
+  <div class="like-btn" @click='handleLikeClick'>
+    <i class='el-icon-star-on like-start' style="font-size:40px;line-height:50px;color:#fff"></i>
+    <div><span style="font-size: 14px;color:#fff">{{this.star}}赞</span></div>
   </div>
   <el-main class="article-main">
     <el-row class="article-row" :gutter="10">
@@ -182,10 +184,18 @@ export default {
   }
   .backTop {
     position: fixed;
-    bottom: 20px;
-    right: 72px;
+    bottom: 110px;
+    right: 60px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 100px;
+    border: #fff 2px solid;
     color: white;
     cursor: pointer;
+  }
+  .backTop:hover{
+    background-color: #208392;
   }
   @keyframes like-ani{
     0%{
@@ -201,5 +211,22 @@ export default {
     animation: like-ani 0.5s linear;
     /* background-color: #50a3a2;
     color: #fff; */
+  }
+  .like-btn{
+    position:fixed;
+    right: 60px;
+    bottom: 200px;
+    border: #fff solid 2px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 100px;
+    cursor:pointer;
+  }
+  .like-btn:hover>.like-start{
+    color: #FFD700;
+  }
+  .like-btn:hover{
+    background-color: #208392;
   }
 </style>
