@@ -1,6 +1,6 @@
 <template>
-  <div class="header">
-    <div class="logo">
+  <div class="header" >
+    <div class="logo" :style="'background-color:'+ (hasBackground ? '#50a392':'rgba(0,0,0,0)')">
       <div style="display:inline-block;"  @click="home">
         <div class="logo-image">
           <i class="el-icon-s-home"></i> 知奇然
@@ -31,7 +31,7 @@
         </div>
         <div class="user_avatar" slot="reference">
           <i class="el-icon-user-solid" v-if="!hasLogin"></i>
-          <i class="el-icon-s-operation" v-if="hasLogin"></i>
+          <i class="el-icon-menu user_avatar_rotate" v-if="hasLogin"></i>
         </div>
       </el-popover>
     </div>
@@ -55,6 +55,10 @@ export default {
     hasLogin() {
       console.log(!!this.$store.state.userinfo.username)
       return !!this.$store.state.userinfo.username
+    },
+    hasBackground(){
+      console.log(this.$route.path)
+      return this.$route.path != '/login' && this.$route.path != '/regist'
     }
   },
   mounted() {
@@ -124,7 +128,6 @@ export default {
   position: fixed;
   top: -15px;
   width: 100%;
-  left: -18px;
   border-style: none;
   height: 80px;
   background-color: #50a392;
@@ -136,7 +139,7 @@ export default {
  .logo-image{
    border-radius: 100px;
    padding: 4px 10px;
-   margin-left: 40px;
+   margin-left: 20px;
    color: #fff;
    font-size: 23px;
    margin-top: 30px;
@@ -158,8 +161,13 @@ export default {
    color: #fff;
    border-style: none;
    border-radius: 100px;
+<<<<<<< HEAD
+   margin-top: 23px;
+   margin-right: 20px;
+=======
    margin-top: 30px;
        margin-right: 46px;
+>>>>>>> b718ffaf0a21f7913edff44bac590c9a08d95388
    padding: 0 10px;
  }
  @keyframes rt{
@@ -167,12 +175,12 @@ export default {
     transform: rotate(0)
    }
    100%{
-     transform: rotate(-90deg)
+     transform: rotate(90deg)
    }
  }
- .user_avatar:hover{
+ .user_avatar_rotate:hover{
    animation: rt 0.2s linear;
-   transform: rotate(-90deg)
+   transform: rotate(90deg)
  }
  .list-button-item{
    width: 100%;

@@ -49,6 +49,13 @@ export default {
   },
   methods: {
     getEmailCode() {
+      if (!this.registForm.email.endsWith('@360.cn')){
+        this.$message({
+            message: '请使用公司邮箱注册！',
+            type: 'error'
+          })
+          return
+      }
       axios.post(`${BASE_URL}/code`, {
         user: this.registForm.email,
       })
@@ -66,6 +73,20 @@ export default {
       })
     },
     regist() {
+      if (this.registForm.password.length > 30 || this.registForm.password.length < 6){
+        this.$message({
+            message: '用户密码长度6~30！',
+            type: 'error'
+          })
+          return
+      }
+      if (this.registForm.code.length != 4){
+        this.$message({
+            message: '验证码格式不正确！',
+            type: 'error'
+          })
+          return
+      }
       axios.post(`${BASE_URL}/register`, {
         user: this.registForm.email,
         password: this.registForm.password,
