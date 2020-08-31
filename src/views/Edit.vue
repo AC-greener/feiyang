@@ -28,7 +28,7 @@
     </el-form>
     <editor 
       :options="defaultOptions"
-      height="470px"
+      height="400px"
       @change="onEditorChange"
       ref="toastuiEditor"
     />
