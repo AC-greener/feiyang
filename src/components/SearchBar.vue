@@ -28,7 +28,7 @@
     <!-- 热门推荐 -->
     <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
       <el-col :span="11" v-show="hostList.length" style="margin-left:60px;">
-        <span style="font-size: 25px;color:#A52A2A"><i class="el-icon-s-data"></i> 用户热搜榜:</span>
+        <span style="font-size: 25px;color:#222"><i class="el-icon-s-data"></i> 用户热搜榜:</span>
         <div class='hot-item-wrapper'>
           <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
             <div :style="'font-size:15px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
@@ -37,7 +37,7 @@
         </div>
       </el-col>
       <el-col :span="11" v-show="latestList.length">
-        <span style="font-size: 25px;color: #000"><i class="el-icon-s-claim"></i> 文章最新榜:</span>
+        <span style="font-size: 25px;color: #222"><i class="el-icon-s-claim"></i> 文章最新榜:</span>
         <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
           <div :style="'font-size:15px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
           &nbsp;&nbsp;{{item.title}}
@@ -96,7 +96,8 @@ export default {
       activeName: 'hot',
       baseUrl: `${BASE_URL}`,
       loading: false,
-      colors: ['#ff3300','#FF6347','#FFD700','#708090','#708090','#708090','#708090','#708090','#708090','#708090'],
+      colors: ['#F08080','#FFA07A','#F0E68C','#70809070','#70809070','#70809070',
+      '#70809070','#70809070','#70809070','#70809070'],
       searchResultList: [],
       hostList:[],
       latestList: [],
@@ -223,7 +224,7 @@ export default {
   }
   .hot-list {
     margin-top: 40px;
-    width: 850px;
+    width: 900px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
     color: white;
   }
@@ -234,7 +235,7 @@ export default {
   }
   .hot-list .hot-item{
     /* display: inline-block; */
-    font-size: 17px;
+    font-size: 18px;
     cursor: pointer;
     margin: 6px 10px;
     overflow: hidden;

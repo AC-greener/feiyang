@@ -111,15 +111,29 @@
               <div @click="viewDetails(item.id)" v-html="item.content" style="max-height:200px" class="user-article-content"></div>
             </div>
           </el-col>
+          <el-col>
+            <el-pagination
+            :hide-on-single-page="1"
+            class="search-paginaton"
+            style="float:right;"
+            @current-change='handleCurrentChange'
+            @prev-click="handleCurrentChange"
+            @next-click="handleCurrentChange"
+            :page-size="10"
+            layout="prev, pager, next"
+            :total="this.total">
+          </el-pagination>
+          <div style="height:200px;"></div>
+          </el-col>
         </el-row>
         </el-col>
-
       </el-row>
 
     </div>
   </div>
 </template>
 <script>
+import {Pagination } from 'element-ui'
 import BASE_URL from '@/server/config';
 import axios from '../server/axios'
 export default {
@@ -128,6 +142,7 @@ export default {
       openCal: true,
       openUser: true,
       loading: false,
+      currentPage: 1,
       user: localStorage.getItem('user'),
       resDate: [],
       passDate: [],
@@ -139,7 +154,6 @@ export default {
       colors: ['','#888','#409EFF','#67C23A', '#ff3300'],
       dict: ['','待审核','审核中','审核通过','未过审'],
       type_interp: ['','知识分享','解决方案'],
-      page: 1,
       deleteArticle: {},
       size: 10,
       historyArticleList: []
@@ -149,6 +163,11 @@ export default {
     this.loadData()
   },
   methods: {
+    handleCurrentChange(currentSize){
+      this.currentPage = currentSize
+      this.historyArticleList = []
+      this.loadData()
+    },
     closeUser(){
       this.openUser = false
     },
@@ -168,7 +187,7 @@ export default {
     loadData(){
       this.loading = true
       axios.post(`${BASE_URL}/article/history`, {
-        page: this.page,
+        page: this.currentPage,
         size: this.size
       }).then(res =>{
         if(res.data.status !== 200) {
