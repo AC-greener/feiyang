@@ -146,7 +146,7 @@ export default {
  }
  .sub-title{
    margin-left: 30px;
-   margin-top: 4px;
+   margin-top: 24px;
    color: #fff;
    background: #50a392;
    padding: 4px 10px;
@@ -161,8 +161,8 @@ export default {
    color: #fff;
    border-style: none;
    border-radius: 100px;
-   margin-top: 30px;
-   margin-right: 56px;
+   margin-top: 23px;
+  margin-right: 56px;
    padding: 0 10px;
  }
  @keyframes rt{
