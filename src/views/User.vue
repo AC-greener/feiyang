@@ -214,8 +214,7 @@ export default {
       this.dialogVisible = true
     },
     confirmDelete(){
-      axios.delete(`${BASE_URL}/article`, {
-        id: this.deleteArticle.id
+      axios.delete(`${BASE_URL}/article?id=${this.deleteArticle.id}`, {
       }).then(res =>{
         this.$message({
           message: res.data.message,

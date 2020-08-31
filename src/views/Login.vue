@@ -48,6 +48,20 @@ export default {
   },
   methods: {
     login() {
+      if (!this.loginForm.username.endsWith('@360.cn')){
+        this.$message({
+            message: '请使用公司邮箱登录！',
+            type: 'error'
+          })
+          return
+      }
+      if (this.loginForm.password.length > 30 || this.loginForm.password.length < 6){
+        this.$message({
+            message: '用户密码长度6~30！',
+            type: 'error'
+          })
+          return
+      }
       this.loginForm.loading = true
       axios.post(`${BASE_URL}/login`, {
         user: this.loginForm.username,

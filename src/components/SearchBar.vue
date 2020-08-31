@@ -1,9 +1,6 @@
 <template>
   <el-container class="search-container" v-loading="loading">
-
-    <div style="margin-top: 60px;color: #fff;font-size:130px;font-weight:800"
-    v-show="!searchResultList.length && !showImptyTips">{{now}}</div>
-    <div class="searchbox" :style="!searchResultList.length && !showImptyTips?'':'margin-top:150px;'">
+    <div class="searchbox">
       <el-autocomplete
         class="search-input"
         v-model="keywords"
@@ -18,18 +15,20 @@
     </div>
     <!-- 热门推荐 -->
     <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
-      <el-col :span="11" v-show="hostList.length" style="margin-left: 70px;">
-        <span>知奇然热搜榜:</span>
+      <el-col :span="11" v-show="hostList.length" style="margin-left:60px;">
+        <span style="font-size: 25px;color:#FF4500"><i class="el-icon-s-data"></i> 用户热搜榜:</span>
         <div class='hot-item-wrapper'>
           <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
-            {{index+1}}.&nbsp;&nbsp;{{item.title}}
+            <div :style="'font-size:16px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
+            &nbsp;&nbsp;{{item.title}}
           </div>
         </div>
       </el-col>
       <el-col :span="11" v-show="latestList.length">
-        <span>知奇然最新榜:</span>
+        <span style="font-size: 25px;color: #000"><i class="el-icon-s-claim"></i> 文章最新榜:</span>
         <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
-          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+          <div :style="'font-size:16px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
+          &nbsp;&nbsp;{{item.title}}
         </div>
       </el-col>
     </el-row>
@@ -83,9 +82,9 @@ export default {
     return {
       keywords: '',
       activeName: 'hot',
-      now: '',
       baseUrl: `${BASE_URL}`,
       loading: false,
+      colors: ['#ff3300','#FF6347','#FFD700','#708090','#708090','#708090','#708090','#708090','#708090','#708090'],
       searchResultList: [],
       hostList:[],
       latestList: [],
@@ -97,33 +96,13 @@ export default {
   mounted() {
     this.getLatestList()
     this.getHotList()
-    this.updateNow()
     this.searchResultList = this.$store.state.searchHistory
-    window.setInterval(()=> {
-      this.updateNow()
-    },1000)
-    window.setInterval(()=> {
+    window.setInterval(function() {
       this.getHotList()
-      this.updateNow()
-    },60000)
+      this.getLatestList()
+    },5000)
   },
   methods: {
-    updateNow(){
-      var today=new Date()
-      var h=today.getHours()
-      var m=today.getMinutes()
-      var s=today.getSeconds()
-      if (h < 10){
-        h = '0' + h
-      }
-      if (m < 10) {
-        m = '0' + m
-      }
-      if (s < 10){
-        s = '0' + s
-      }
-      this.now = h + ':' + m + ':' + s
-    },
     getHotList() {
       aioxs.get(`${BASE_URL}/ranking?type=hot`)
         .then(res => {
@@ -241,16 +220,15 @@ export default {
   }
   .hot-list .hot-item{
     /* display: inline-block; */
-    font-size: 14px;
+    font-size: 17px;
     cursor: pointer;
-    margin: 10px;
+    margin: 8px 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .hot-list .hot-item:hover{
-    border-bottom: 1px solid white;
-    /* text-decoration: underline; */
+    margin-left: 5px;
   }
   .search-container .search-paginaton, .search-container .search-paginaton button{
     background: #50a392;
@@ -347,7 +325,7 @@ export default {
     background: white;
     border-radius: 10px;
     display: flex;
-    margin-top: 20px;
+    margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 30px;
