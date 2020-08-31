@@ -133,17 +133,15 @@ export default {
    width: 130px;
  }
  .logo-image{
-   background-color:#50a392;
    border-radius: 100px;
    padding: 4px 10px;
-   border: #50a392 2px solid;
    margin-left: 40px;
    color: #fff;
    font-size: 23px;
    margin-top: 30px;
  }
  .logo-image:hover{
-   color: #104352;
+   
  }
  .sub-title{
    margin-left: 30px;
@@ -161,26 +159,34 @@ export default {
    float: right;
    color: #fff;
    border-style: none;
-   background-color: #50a3a2;
    border-radius: 100px;
    margin-top: 30px;
    margin-right: 10px;
    padding: 0 10px;
  }
+ @keyframes rt{
+   0%{
+    transform: rotate(0)
+   }
+   100%{
+     transform: rotate(-90deg)
+   }
+ }
  .user_avatar:hover{
-   color: #104352;
+   animation: rt 0.2s linear;
+   transform: rotate(-90deg)
  }
  .list-button-item{
    width: 100%;
    font-size: 16px;
    height: 40px;
-   background-color: #50a3a2;
+   background-color:#50a392;
    margin: 5px 0 0 0;
    color: #fff;
   border-style: none;
  }
 .list-button-item:hover{
-   background-color: rgb(90,132,200);
+   background-color: #208392;
 }
 .logo-image-inner{
   background-color:#50a392;

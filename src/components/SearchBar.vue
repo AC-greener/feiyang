@@ -38,7 +38,8 @@
         <div class="item-content" @click="toArticleDetail(item.id)" >
           <div class="article-title">{{ item.title }}</div>
           <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
-          <div class="article-author">作者：{{item.author}} 时间：{{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0]}}</div>
+          <div class="article-author">作者：{{item.author}} 时间：
+            {{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0].split('T')[0]}}</div>
         </div>
       </el-row>
     </div>
@@ -93,6 +94,10 @@ export default {
     this.getHotList()
     this.getLatestList()
     this.searchResultList = this.$store.state.searchHistory
+    window.setInterval(function() {
+      this.getHotList()
+      this.getLatestList()
+    },5000)
   },
   methods: {
     getHotList() {
@@ -200,7 +205,8 @@ export default {
       overflow: hidden;
   }
   .hot-list {
-    width: 600px;
+    margin-top: 40px;
+    width: 700px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
         color: white;
   }
@@ -224,6 +230,9 @@ export default {
   }
   .search-container .search-paginaton, .search-container .search-paginaton button{
     background: #50a392;
+  }
+  .search-container-bg{
+    background-image: linear-gradient(to top right, blue, pink);
   }
   .search-input {
     margin-left: 3px;
@@ -423,112 +432,7 @@ export default {
   color: #222;
   font-size: 15px;
 }
-.bg-bubbles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
+.rank-item:hover{
+  text-decoration: underline;
 }
-.bg-bubbles li {
-  position: absolute;
-  list-style: none;
-  display: block;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.15);
-  bottom: -160px;
-  animation: square 25s infinite;
-  transition-timing-function: linear;
-}
-.bg-bubbles li:nth-child(1) {
-  left: 10%;
-}
-.bg-bubbles li:nth-child(2) {
-  left: 20%;
-  width: 80px;
-  height: 80px;
-  animation-delay: 2s;
-  animation-duration: 17s;
-}
-.bg-bubbles li:nth-child(3) {
-  left: 25%;
-  animation-delay: 4s;
-}
-.bg-bubbles li:nth-child(4) {
-  left: 40%;
-  width: 60px;
-  height: 60px;
-  animation-duration: 22s;
-  background-color: rgba(255, 255, 255, 0.25);
-}
-.bg-bubbles li:nth-child(5) {
-  left: 70%;
-}
-.bg-bubbles li:nth-child(6) {
-  left: 80%;
-  width: 120px;
-  height: 120px;
-  animation-delay: 3s;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.bg-bubbles li:nth-child(7) {
-  left: 32%;
-  width: 160px;
-  height: 160px;
-  animation-delay: 7s;
-}
-.bg-bubbles li:nth-child(8) {
-  left: 55%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 15s;
-  animation-duration: 40s;
-}
-.bg-bubbles li:nth-child(9) {
-  left: 25%;
-  width: 10px;
-  height: 10px;
-  animation-delay: 2s;
-  animation-duration: 40s;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-.bg-bubbles li:nth-child(10) {
-  left: 90%;
-  width: 160px;
-  height: 160px;
-  animation-delay: 11s;
-}
-@-webkit-keyframes square {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-700px) rotate(600deg);
-  }
-}
-@keyframes square {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-700px) rotate(600deg);
-  }
-}
-.wrapper {
-  color: white;
-  background: #50a3a2;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 </style>

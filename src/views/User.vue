@@ -3,11 +3,11 @@
     <div style="height:70px"></div>
     <div class="user-main-body">
 
-      <el-row :gutter="20">
+      <el-row :gutter="25">
 
-        <el-col :span="9" style="position:fixed">
+        <el-col :span="open ? 8 : 1" style="position:fixed">
           <div class="user-info" style="padding:0">
-            <el-calendar :range="['2019-07-04', '2019-09-24']">
+            <el-calendar :range="['2019-07-04', '2019-09-24']" v-if="open">
               <template
                 slot="dateCell"
                 slot-scope="{date, data}">
@@ -35,10 +35,14 @@
                 </el-popover>
               </template>
             </el-calendar>
+            <i class="el-icon-caret-left colapse" @click="close" v-if="open"></i>
+            <div v-if="!open">
+              <i class="el-icon-s-claim open" @click="openCalendar"></i>
+            </div>
           </div>
         </el-col>
 
-        <el-col :span="15" style="float:right">
+        <el-col :span="open ? 16 : 23" style="float:right">
           <div class="user-info" style="padding: 20px;">
             <el-row :gutter="20">
               <el-col :span="8">
@@ -77,16 +81,16 @@
           <el-row :gutter="20" v-loading="loading">
           <el-col :span="24" v-for="item in historyArticleList" :key="item.id" class="article-item">
             <div class="article-item-box" @click="viewDetails(item.id)">
-              <div class="user-float-icon"
-              :style="'background-color:' + colors[Number(item.status)]">
-                {{dict[item.status]}}
-              </div>
+             
               <div class="user-atricle-title"> 《{{item.title}}》</div>
               <div class="user-article-time">
                 {{item.created_at.split('T')[0]}} {{item.created_at.split('T')[1].substr(0,8)}} 
                 发布于 
                 <el-tag type="success" v-if="item.article_type == 1">知识分享</el-tag>
                 <el-tag type="primary" v-if="item.article_type == 2">解决方案</el-tag>
+                <el-tag :style="'color:#fff;background-color:' + colors[Number(item.status)]">
+                  {{dict[item.status]}}
+                </el-tag>
               </div>
               <div v-html="item.content" style="max-height:200px" class="user-article-content"></div>
             </div>
@@ -105,6 +109,7 @@ import axios from '../server/axios'
 export default {
   data() {
     return {
+      open: true,
       loading: false,
       user: localStorage.getItem('user'),
       resDate: [],
@@ -114,7 +119,7 @@ export default {
       today: 0,
       today_pass: 0,
       colors: ['','#888','#409EFF','#67C23A', '#ff3300'],
-      dict: ['','待','审','过','撤'],
+      dict: ['','待审核','审核中','审核通过','未过审'],
       page: 1,
       size: 10,
       historyArticleList: []
@@ -124,6 +129,12 @@ export default {
     this.loadData()
   },
   methods: {
+    close(){
+      this.open = false
+    },
+    openCalendar(){
+      this.open = true
+    },
     viewDetails(id){
       this.$router.push('/article/' + id)
     },
@@ -265,17 +276,23 @@ export default {
   color: #888;
   font-size: 15px;
 }
-.user-float-icon{
-  float: right;
-  font-size: 30px;
+.colapse{
+  float:right;
+  margin-top:-350px;
+  cursor: pointer;
+  font-size: 35px;
   margin-right: -10px;
-  background-color: #dd2200;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  margin-top: -20px;
-  border-radius: 100px;
-  color: #fff;
+}
+.colapse:hover{
+  color: #50a392;
+  font-size: 38px;
+}
+.open{
+  cursor: pointer;
+  font-size: 30px;
+  color: #50a392;
+}
+.open:hover{
+  font-size: 31px;
 }
 </style>
