@@ -17,6 +17,11 @@ export default new Router({
       component: () => import('../views/Login.vue')
     },
     {
+      path: '/bg',
+      name: 'Bg',
+      component: () => import('../components/Background.vue')
+    },
+    {
       path: '/regist',
       name: 'Regist',
       component: () => import('../views/Regist.vue')

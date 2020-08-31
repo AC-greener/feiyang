@@ -1,66 +1,65 @@
 <template>
-<el-container class="search-container search-container-bg" v-loading="loading"
-style="background-image: linear-gradient(to top right, #9932CC, blue, #483D8B)">
-  <div class="searchbox">
-    <el-autocomplete
-      class="search-input"
-      v-model="keywords"
-      :fetch-suggestions="getSearchRecommend"
-      placeholder="探索知识世界，从这里开始..."
-      :trigger-on-focus="false"
-      @change="handleSearch"
-    ></el-autocomplete>
-    <button class="btn-search" @click="handleSearch">
-      <i class="el-icon-search search-icon"></i>
-    </button>
-  </div>
-  <!-- 热门推荐 -->
-  <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
-    <el-col :span="11" >
-      <span v-if="hostList.length > 0" style="color:#fff;">知奇然热搜榜:</span>
-      <div v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)"
-      style="color:#fff;font-size:15px;" class="rank-item">
-        {{index+1}}.&nbsp;&nbsp;{{item.title}}
-      </div>
-    </el-col>
-    <el-col :span="11" >
-      <span v-if="latestList.length > 0" style="color:#fff;">知奇然最新榜:</span>
-      <div v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)"
-      style="color:#fff;font-size:15px;" class="rank-item">
-        {{index+1}}.&nbsp;&nbsp;{{item.title}}
-      </div>
-    </el-col>
-  </el-row>
-  <div class="result-list">
-    <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
-      <div class="item-cover" @click="toArticleDetail(item.id)">
-        <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
-      </div>
-      <div class="item-content" @click="toArticleDetail(item.id)" >
-        <div class="article-title">{{ item.title }}</div>
-        <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
-        <div class="article-author">作者：{{item.author}} 时间：
-          {{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0].split('T')[0]}}</div>
-      </div>
+  <el-container class="search-container" v-loading="loading">
+    <div class="searchbox">
+      <el-autocomplete
+        class="search-input"
+        v-model="keywords"
+        :fetch-suggestions="getSearchRecommend"
+        placeholder="探索知识世界，从这里开始..."
+        :trigger-on-focus="false"
+        @change="handleSearch"
+      ></el-autocomplete>
+      <button class="btn-search" @click="handleSearch">
+        <i class="el-icon-search search-icon"></i>
+      </button>
+    </div>
+    <!-- 热门推荐 -->
+    <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
+      <el-col :span="11" v-show="hostList.length">
+        <span>知奇然热搜榜:</span>
+        <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+        </div>
+      </el-col>
+      <el-col :span="11" v-show="latestList.length">
+        <span>知奇然最新榜:</span>
+        <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
+          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+        </div>
+      </el-col>
     </el-row>
-  </div>
-  <div v-show="showImptyTips">
-    没有找到您要搜索的内容，换个词试一试吧~
-  </div>
-  <el-pagination
-    :hide-on-single-page="1"
-    class="search-paginaton"
-    @current-change='handleCurrentChange'
-    @prev-click="handleCurrentChange"
-    @next-click="handleCurrentChange"
-    :page-size="10"
-    layout="prev, pager, next"
-    :total="this.totalLength">
-  </el-pagination>
+    <div class="result-list">
+      <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
+        <div class="item-cover" @click="toArticleDetail(item.id)">
+          <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
+        </div>
+        <div class="item-content" @click="toArticleDetail(item.id)" >
+          <div class="article-title">{{ item.title }}</div>
+          <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
+          <div class="article-author">作者：{{item.author}} 时间：
+            {{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0].split('T')[0]}}</div>
+        </div>
+      </el-row>
+    </div>
+    
+    <div v-show="showImptyTips">
+      没有找到您要搜索的内容，换个词试一试吧~
+    </div>
+    <el-pagination
+      :hide-on-single-page="1"
+      class="search-paginaton"
+      @current-change='handleCurrentChange'
+      @prev-click="handleCurrentChange"
+      @next-click="handleCurrentChange"
+      :page-size="10"
+      layout="prev, pager, next"
+      :total="this.totalLength">
+    </el-pagination>
   </el-container>
 </template>
 
 <script>
+import BackGround from '@/components/Background'
 import { Container, Button, Row, Autocomplete, Pagination } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
@@ -71,7 +70,8 @@ export default {
     'el-button': Button,
     'el-row': Row,
     'el-autocomplete': Autocomplete,
-    'el-pagination': Pagination
+    'el-pagination': Pagination,
+    BackGround
   },
   name: 'SearchBar',
   data() {
@@ -206,16 +206,14 @@ export default {
     margin-top: 40px;
     width: 700px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
-    color: #22222280;
-    /* padding: 10px; */
+        color: white;
   }
   .hot-list span {
-    color: #222222a6;
-    margin-left: -10px;
+        color: white;
     font-weight: 400;
     font-size: 19px;
   }
-  .hot-list div{
+  .hot-list .hot-item{
     font-size: 14px;
     cursor: pointer;
     margin: 10px;
@@ -293,11 +291,6 @@ export default {
     flex-direction: column; 
     align-items: center;
     padding-bottom: 60px;
-  }
-  .add-article {
-    position: absolute;
-    right: 30px;
-    top: 30px;
   }
   button img {
     transition: transform .25s;
