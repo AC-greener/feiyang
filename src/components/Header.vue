@@ -180,13 +180,13 @@ export default {
    width: 100%;
    font-size: 16px;
    height: 40px;
-   background-color: #9932CC;
+   background-color:#50a392;
    margin: 5px 0 0 0;
    color: #fff;
   border-style: none;
  }
 .list-button-item:hover{
-   background-color: #483D8B;
+   background-color: #208392;
 }
 .logo-image-inner{
   background-color:#50a392;
