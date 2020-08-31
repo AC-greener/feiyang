@@ -140,9 +140,6 @@ export default {
    font-size: 23px;
    margin-top: 30px;
  }
- .logo-image:hover{
-   
- }
  .sub-title{
    margin-left: 30px;
    margin-top: 4px;
@@ -161,7 +158,7 @@ export default {
    border-style: none;
    border-radius: 100px;
    margin-top: 30px;
-   margin-right: 10px;
+       margin-right: 46px;
    padding: 0 10px;
  }
  @keyframes rt{

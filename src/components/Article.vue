@@ -6,6 +6,9 @@
     <i :class='isLike ? "el-icon-star-on" : "el-icon-star-off"' style="font-size:30px;line-height:55px;"></i>
     <span style="font-size: 13px">{{this.star}} 人喜欢</span>
   </div>
+  <div v-show="showBackTop" class="backTop" @click="handleBackTopClick">
+    <i class= "el-icon-caret-top" style="font-size:30px;line-height:55px;"></i>
+  </div>
   <el-main class="article-main">
     <el-row class="article-row" :gutter="10">
       <el-col :span="24">
@@ -26,14 +29,15 @@
 <script>
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
-import { Row, Col, Container, Header, Footer ,Main } from 'element-ui';
+import { Row, Col, Container, Header, Footer ,Main, Backtop } from 'element-ui';
 export default {
   components: {
     'el-row': Row,
     'el-col': Col,
     'el-header': Header,
     'el-main': Main,
-    'el-footer': Footer
+    'el-footer': Footer,
+    'el-backtop': Backtop
   },
   data() {
     return {
@@ -41,13 +45,37 @@ export default {
       title: '',
       content: '',
       star: 0,
-      isLike: false
+      isLike: false,
+      showBackTop: false
     }
   },
+
   mounted() {
     this.getArticleInfo()
+    this.scrollListener()
+  },
+  destroyed() {
+    this.removeScrollListener()
   },
   methods: {
+    scrollListener() {
+      document.addEventListener('scroll', () => {
+        if(document.documentElement.scrollTop > 200) {
+          this.showBackTop = true
+        } else {
+          this.showBackTop = false
+        }
+      })
+    },
+    removeScrollListener() {
+      document.removeEventListener('scroll', this.scrollListener)
+    },
+    handleBackTopClick() {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },
     getArticleInfo() {
       axios.get(`${BASE_URL}/article?id=${this.id}`)
         .then(res => {
@@ -138,31 +166,37 @@ export default {
   .article-container .like {
     position: fixed;
     top: 250px;
+    right: 10px;
     padding-right: 10px;
     height: 60px;
-    /* border: #50a3a2 solid 2px; */
     text-align: start;
     padding-left: 5px;
     font-size: 20px;
-    color: #50a3a2;
+    color: #fff;
     vertical-align: top;
     border-radius: 8px;
-    left: 10px;
+    cursor: pointer;
+  }
+  .backTop {
+    position: fixed;
+    bottom: 20px;
+    right: 76px;
+    color: white;
     cursor: pointer;
   }
   @keyframes like-ani{
     0%{
       background-color: #fff;
-      color: #50a3a2;
+      /* color: #50a3a2; */
     }
     100%{
       background-color: #50a3a2;
-      color: #fff;
+      /* color: #fff; */
     }
   }
   .like:hover{
     animation: like-ani 0.5s linear;
-    background-color: #50a3a2;
-    color: #fff;
+    /* background-color: #50a3a2;
+    color: #fff; */
   }
 </style>
