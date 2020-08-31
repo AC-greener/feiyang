@@ -1,17 +1,27 @@
 <template>
   <el-container class="search-container" v-loading="loading">
-
-    <div style="margin-top: 60px;color: #fff;font-size:130px;font-weight:800"
-    v-show="!searchResultList.length && !showImptyTips">{{now}}</div>
-    <div class="searchbox" :style="!searchResultList.length && !showImptyTips?'':'margin-top:150px;'">
-      <el-autocomplete
+      <div class="searchbox" :style="!searchResultList.length && !showImptyTips?'':'margin-top:150px;'">
+        <el-dropdown :hide-on-click="false" class="btn-menu">
+        <span class="el-dropdown-link">
+          知识<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>知识</el-dropdown-item>
+          <el-dropdown-item>方案</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <input  
+        v-model="keywords" id="search" type="text"  autocomplete="off"
+        placeholder="探索知识世界，从这里开始..." name="search" class="search"
+        @keyup.enter="handleSearch">
+      <!-- <el-autocomplete
         class="search-input"
         v-model="keywords"
         :fetch-suggestions="getSearchRecommend"
         placeholder="探索知识世界，从这里开始..."
         :trigger-on-focus="false"
         @change="handleSearch"
-      ></el-autocomplete>
+      ></el-autocomplete> -->
       <button class="btn-search" @click="handleSearch">
         <i class="el-icon-search search-icon"></i>
       </button>
@@ -46,7 +56,6 @@
         </div>
       </el-row>
     </div>
-    
     <div v-show="showImptyTips">
       没有找到您要搜索的内容，换个词试一试吧~
     </div>
@@ -347,7 +356,7 @@ export default {
     background: white;
     border-radius: 10px;
     display: flex;
-    margin-top: 20px;
+    margin-top: 120px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 30px;

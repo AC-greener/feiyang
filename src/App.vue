@@ -38,4 +38,3 @@ export default {
     background: #50a392;
   }
 </style>
-
