@@ -255,9 +255,6 @@ export default {
     margin-left: 3px;
     margin-top: 5px;
   }
-  .border {
-    border: 1px solid red;
-  }
   .result-list {
     width: 900px;
     padding-left: 220px;
@@ -334,9 +331,8 @@ export default {
     outline: none;
   }
   .searchbox {
-    border: 1px solid red;
     height: 60px;
-    width: 504px;
+    width: 560px;
     max-width: 100%;
     background: white;
     border-radius: 10px;
