@@ -37,5 +37,8 @@ export default {
   .search-paginaton  .el-pager {
     background: #50a392;
   }
+  .el-calendar-table .el-calendar-day{
+    height: 70px;
+  }
 </style>
 

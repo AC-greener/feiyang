@@ -35,7 +35,7 @@
                   </p>
                   <div slot="reference"> <!--这里原本有动态绑定的class，去掉-->
                     <p>
-                    <div style="width:100%;height:100%;margin-top:-8px">
+                    <div style="width:100%;height:100%;margin-top:-18px">
                       <span class="number" style="color:#50a392;text-decoration:underline;" v-if="dealMyDate(data.day).split('&')[1] != undefined">
                       {{dealMyDate(data.day).split('&')[1]}}</span><br>
                       <span class="number" style="color:rgb(56,85,157);" v-if="dealMyDate(data.day).split('&')[0] != undefined">
@@ -63,8 +63,8 @@
               <el-col :span="8">
                 <div>
                   <div class="user-avatar"><i class="el-icon-user-solid" 
-                  style="font-size:70px;line-height:90px;color:#50a392"></i></div>
-                  <div class="user-name">{{user}}</div>
+                  style="font-size:50px;line-height:85px;color:#50a392"></i></div>
+                  <div class="user-name">Email：{{user}}</div>
                 </div>
               </el-col>
               <el-col :span="16">
@@ -301,13 +301,14 @@ export default {
 .user-avatar{
   width: 90px;
   height: 90px;
-  background-color: #ddd;
-  border-radius: 6px;
+  background-color: #ded;
+  border-radius: 100px;
   margin: 0 auto;
 }
 .user-name{
   margin-top: 10px;
   font-size: 20px;
+  font-weight: 600;
   color: #000;
 }
 .user-info{
@@ -353,7 +354,7 @@ export default {
 }
 .colapse{
   float:right;
-  margin-top:-350px;
+  margin-top:-300px;
   cursor: pointer;
   font-size: 35px;
   margin-right: -10px;
