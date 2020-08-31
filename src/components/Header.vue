@@ -61,9 +61,13 @@ export default {
   },
   methods: {
     home(){
+      var refresh = this.$route.path == '/'
       this.$router.push('/')
       localStorage.removeItem('searchResultList')
       localStorage.removeItem('keyword')
+      if (refresh){
+        this.$router.go(0)
+      }
     },
     login(){
       this.$router.push('/login')
