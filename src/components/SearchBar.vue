@@ -334,8 +334,9 @@ export default {
     outline: none;
   }
   .searchbox {
+    border: 1px solid red;
     height: 60px;
-    width: 450px;
+    width: 504px;
     max-width: 100%;
     background: white;
     border-radius: 10px;
