@@ -1,13 +1,25 @@
 <template>
   <div class="user-container">
+
+    <el-dialog
+  title="提示"
+  :visible.sync="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>确认删除文章《{{deleteArticle.title}}》吗？</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="confirmDelete()">确 定</el-button>
+  </span>
+</el-dialog>
+
     <div style="height:70px"></div>
     <div class="user-main-body">
 
       <el-row :gutter="25">
-
-        <el-col :span="open ? 8 : 1" style="position:fixed">
+        <el-col :span="openCal ? 8 : 1" style="position:fixed">
           <div class="user-info" style="padding:0">
-            <el-calendar :range="['2019-07-04', '2019-09-24']" v-if="open">
+            <el-calendar :range="['2019-07-04', '2019-09-24']" v-if="openCal">
               <template
                 slot="dateCell"
                 slot-scope="{date, data}">
@@ -35,15 +47,18 @@
                 </el-popover>
               </template>
             </el-calendar>
-            <i class="el-icon-caret-left colapse" @click="close" v-if="open"></i>
-            <div v-if="!open">
+            <i class="el-icon-caret-left colapse" @click="closeCalendar" v-if="openCal"></i>
+            <div v-if="!openCal">
               <i class="el-icon-s-claim open" @click="openCalendar"></i>
+            </div>
+            <div v-if="!openUser">
+              <i class="el-icon-user-solid open" @click="openUserFun"></i>
             </div>
           </div>
         </el-col>
 
-        <el-col :span="open ? 16 : 23" style="float:right">
-          <div class="user-info" style="padding: 20px;">
+        <el-col :span="openCal ? 16 : 23" style="float:right">
+          <div class="user-info" style="padding: 20px;" v-if="openUser">
             <el-row :gutter="20">
               <el-col :span="8">
                 <div>
@@ -53,7 +68,7 @@
                 </div>
               </el-col>
               <el-col :span="16">
-                <div class="float-right">更多资料</div>
+                <div class="float-right" v-if="!openCal" @click="closeUser">&lt;&lt;收起</div>
                 <div class="user-data">
                   <el-row :gutter="20">
                     <el-col :span="8">
@@ -80,19 +95,20 @@
           <div style="margin-top:20px"></div>
           <el-row :gutter="20" v-loading="loading">
           <el-col :span="24" v-for="item in historyArticleList" :key="item.id" class="article-item">
-            <div class="article-item-box" @click="viewDetails(item.id)">
+            <div class="article-item-box">
              
-              <div class="user-atricle-title"> 《{{item.title}}》</div>
+              <div class="user-atricle-title" @click="viewDetails(item.id)"> 《{{item.title}}》</div>
               <div class="user-article-time">
+                {{user}} 于
                 {{item.created_at.split('T')[0]}} {{item.created_at.split('T')[1].substr(0,8)}} 
-                发布于 
-                <el-tag type="success" v-if="item.article_type == 1">知识分享</el-tag>
-                <el-tag type="primary" v-if="item.article_type == 2">解决方案</el-tag>
+                发布在
+                <font color="#000">{{type_interp[item.article_type]}}</font>
                 <el-tag :style="'color:#fff;background-color:' + colors[Number(item.status)]">
                   {{dict[item.status]}}
                 </el-tag>
+                <el-button size="small" type="default" @click="deleteArticleFunc(item)">删除</el-button>
               </div>
-              <div v-html="item.content" style="max-height:200px" class="user-article-content"></div>
+              <div @click="viewDetails(item.id)" v-html="item.content" style="max-height:200px" class="user-article-content"></div>
             </div>
           </el-col>
         </el-row>
@@ -109,7 +125,8 @@ import axios from '../server/axios'
 export default {
   data() {
     return {
-      open: true,
+      openCal: true,
+      openUser: true,
       loading: false,
       user: localStorage.getItem('user'),
       resDate: [],
@@ -117,10 +134,13 @@ export default {
       counting: [],
       total: 0,
       today: 0,
+      dialogVisible: false,
       today_pass: 0,
       colors: ['','#888','#409EFF','#67C23A', '#ff3300'],
       dict: ['','待审核','审核中','审核通过','未过审'],
+      type_interp: ['','知识分享','解决方案'],
       page: 1,
+      deleteArticle: {},
       size: 10,
       historyArticleList: []
     }
@@ -129,11 +149,18 @@ export default {
     this.loadData()
   },
   methods: {
-    close(){
-      this.open = false
+    closeUser(){
+      this.openUser = false
+    },
+    openUserFun(){
+      this.openUser = true
+    },
+    closeCalendar(){
+      this.openCal = false
     },
     openCalendar(){
-      this.open = true
+      this.openCal = true
+      this.openUser = true
     },
     viewDetails(id){
       this.$router.push('/article/' + id)
@@ -180,6 +207,29 @@ export default {
           type: 'error'
         })
         this.loading = false
+      })
+    },
+    deleteArticleFunc(article){
+      this.deleteArticle = article
+      this.dialogVisible = true
+    },
+    confirmDelete(){
+      axios.delete(`${BASE_URL}/article`, {
+        id: this.deleteArticle.id
+      }).then(res =>{
+        this.$message({
+          message: res.data.message,
+          type: res.data.status == 200 ? 'success' : 'error'
+        })
+        this.deleteArticle = {}
+        this.dialogVisible = false
+      }).catch(err => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+        this.deleteArticle = {}
+        this.dialogVisible = false
       })
     },
     dealMyDate(v) {
