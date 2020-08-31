@@ -127,6 +127,7 @@ export default {
   left: -18px;
   border-style: none;
   height: 80px;
+  background-color: #50a392;
   /* background: #50a392; */
 }
  .logo-icon {

@@ -17,10 +17,9 @@
     <div class="user-main-body">
 
       <el-row :gutter="25">
-
-        <el-col :span="open ? 8 : 1" style="position:fixed">
+        <el-col :span="openCal ? 8 : 1" style="position:fixed">
           <div class="user-info" style="padding:0">
-            <el-calendar :range="['2019-07-04', '2019-09-24']" v-if="open">
+            <el-calendar :range="['2019-07-04', '2019-09-24']" v-if="openCal">
               <template
                 slot="dateCell"
                 slot-scope="{date, data}">
@@ -48,15 +47,18 @@
                 </el-popover>
               </template>
             </el-calendar>
-            <i class="el-icon-caret-left colapse" @click="close" v-if="open"></i>
-            <div v-if="!open">
+            <i class="el-icon-caret-left colapse" @click="closeCalendar" v-if="openCal"></i>
+            <div v-if="!openCal">
               <i class="el-icon-s-claim open" @click="openCalendar"></i>
+            </div>
+            <div v-if="!openUser">
+              <i class="el-icon-user-solid open" @click="openUserFun"></i>
             </div>
           </div>
         </el-col>
 
-        <el-col :span="open ? 16 : 23" style="float:right">
-          <div class="user-info" style="padding: 20px;">
+        <el-col :span="openCal ? 16 : 23" style="float:right">
+          <div class="user-info" style="padding: 20px;" v-if="openUser">
             <el-row :gutter="20">
               <el-col :span="8">
                 <div>
@@ -66,7 +68,7 @@
                 </div>
               </el-col>
               <el-col :span="16">
-                <div class="float-right">更多资料</div>
+                <div class="float-right" v-if="!openCal" @click="closeUser">&lt;&lt;收起</div>
                 <div class="user-data">
                   <el-row :gutter="20">
                     <el-col :span="8">
@@ -123,7 +125,8 @@ import axios from '../server/axios'
 export default {
   data() {
     return {
-      open: true,
+      openCal: true,
+      openUser: true,
       loading: false,
       user: localStorage.getItem('user'),
       resDate: [],
@@ -146,11 +149,18 @@ export default {
     this.loadData()
   },
   methods: {
-    close(){
-      this.open = false
+    closeUser(){
+      this.openUser = false
+    },
+    openUserFun(){
+      this.openUser = true
+    },
+    closeCalendar(){
+      this.openCal = false
     },
     openCalendar(){
-      this.open = true
+      this.openCal = true
+      this.openUser = true
     },
     viewDetails(id){
       this.$router.push('/article/' + id)
