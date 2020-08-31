@@ -3,8 +3,8 @@
   <el-header>
   </el-header>
   <div class="like" @click='handleLikeClick'>
-    <i class="el-icon-s-opportunity" style="font-size:30px;line-height:55px;"></i>
-    <span>{{this.star}} 人喜欢</span>
+    <i :class='isLike ? "el-icon-star-on" : "el-icon-star-off"' style="font-size:30px;line-height:55px;"></i>
+    <span style="font-size: 13px">{{this.star}} 人喜欢</span>
   </div>
   <el-main class="article-main">
     <el-row class="article-row" :gutter="10">
@@ -40,7 +40,8 @@ export default {
       id: this.$route.params.id,
       title: '',
       content: '',
-      star: 0
+      star: 0,
+      isLike: false
     }
   },
   mounted() {
@@ -69,6 +70,7 @@ export default {
         })
     },
     handleLikeClick() {
+      this.isLike = true
       axios.get(`${BASE_URL}/article/like?id=${this.id}`)
         .then(res => {
           if(res.data.status !== 200) {
@@ -105,8 +107,6 @@ export default {
     width: 2em;
     height: 2em;
   }
-  .guzhang.active {
-  }
  
   h1.article-title { 
     line-height: 48px;
@@ -119,24 +119,28 @@ export default {
     font-size: 21px;
     line-height: 32px;
   }
-  .border {
-  }
+
   .article-main {
-    width: 1000px;
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 50px;
+    background: white;
+    border: 5px solid white;
+    border-radius: 5px ;
   }
   .article-container {
-   position: relative;
+    min-height: 100vh;
+    background: #50a392;
+    position: relative;
   }
   .article-container .like {
     position: fixed;
     top: 250px;
     padding-right: 10px;
     height: 60px;
-    border: #50a3a2 solid 2px;
+    /* border: #50a3a2 solid 2px; */
     text-align: start;
     padding-left: 5px;
     font-size: 20px;
