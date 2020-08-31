@@ -17,8 +17,10 @@
     <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
       <el-col :span="11" v-show="hostList.length">
         <span>知奇然热搜榜:</span>
-        <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
-          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+        <div class='hot-item-wrapper'>
+          <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+            {{index+1}}.&nbsp;&nbsp;{{item.title}}
+          </div>
         </div>
       </el-col>
       <el-col :span="11" v-show="latestList.length">
@@ -209,17 +211,22 @@ export default {
         color: white;
   }
   .hot-list span {
-        color: white;
+    color: white;
     font-weight: 400;
     font-size: 19px;
   }
   .hot-list .hot-item{
+    /* display: inline-block; */
     font-size: 14px;
     cursor: pointer;
     margin: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .hot-list .hot-item:hover{
+    border-bottom: 1px solid white;
+    /* text-decoration: underline; */
   }
   .search-container .search-paginaton, .search-container .search-paginaton button{
     background: #50a392;
@@ -284,7 +291,7 @@ export default {
     overflow: hidden;
   }
   .search-container {
-    min-height: 800px;
+    min-height: 100vh;
     background: #50a392;
     position: relative;
     display: flex;
