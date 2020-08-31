@@ -2,24 +2,6 @@
   <div class="wrapper">
     <div class="container">
       <h1>Welcome Login</h1>
-      <!-- <el-form :model='loginForm'  ref="loginForm" label-position='left'  class="demo-ruleForm">
-        <el-form-item
-          prop="username"
-          :rules="[
-            { required: true, message: '用户名不能为空'},
-          ]"
-        >
-          <el-input placeholder="Username" v-model="loginForm.username"   autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-          prop="password"
-          :rules="[
-            { required: true, message: '密码不能为空'},
-          ]"
-        >
-          <el-input type="password" placeholder="Password" v-model="loginForm.password"   autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form> -->
       <form class="form">
         <input required v-model='loginForm.username' type="text" placeholder="Username">
         <input required v-model='loginForm.password' type="password" placeholder="Password">

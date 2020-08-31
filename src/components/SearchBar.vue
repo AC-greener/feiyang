@@ -1,64 +1,64 @@
 <template>
-<el-container class="search-container" v-loading="loading">
-  <div class="add-article">
-  </div>
-  <div class="searchbox">
-    <el-autocomplete
-      class="search-input"
-      v-model="keywords"
-      :fetch-suggestions="getSearchRecommend"
-      placeholder="探索知识世界，从这里开始..."
-      :trigger-on-focus="false"
-      @change="handleSearch"
-    ></el-autocomplete>
-    <button class="btn-search" @click="handleSearch">
-      <i class="el-icon-search search-icon"></i>
-    </button>
-  </div>
-  <!-- 热门推荐 -->
-  <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
-    <el-col :span="11" >
-      <span>知奇然热搜榜:</span>
-      <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
-        {{index+1}}.&nbsp;&nbsp;{{item.title}}
-      </div>
-    </el-col>
-    <el-col :span="11" >
-      <span>知奇然最新榜:</span>
-      <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
-        {{index+1}}.&nbsp;&nbsp;{{item.title}}
-      </div>
-    </el-col>
-  </el-row>
-  <div class="result-list">
-    <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
-      <div class="item-cover" @click="toArticleDetail(item.id)">
-        <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
-      </div>
-      <div class="item-content" @click="toArticleDetail(item.id)" >
-        <div class="article-title">{{ item.title }}</div>
-        <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
-        <div class="article-author">作者：{{item.author}} 时间：{{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0]}}</div>
-      </div>
+  <el-container class="search-container" v-loading="loading">
+    <div class="searchbox">
+      <el-autocomplete
+        class="search-input"
+        v-model="keywords"
+        :fetch-suggestions="getSearchRecommend"
+        placeholder="探索知识世界，从这里开始..."
+        :trigger-on-focus="false"
+        @change="handleSearch"
+      ></el-autocomplete>
+      <button class="btn-search" @click="handleSearch">
+        <i class="el-icon-search search-icon"></i>
+      </button>
+    </div>
+    <!-- 热门推荐 -->
+    <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
+      <el-col :span="11" v-show="hostList.length">
+        <span>知奇然热搜榜:</span>
+        <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
+          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+        </div>
+      </el-col>
+      <el-col :span="11" v-show="latestList.length">
+        <span>知奇然最新榜:</span>
+        <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
+          {{index+1}}.&nbsp;&nbsp;{{item.title}}
+        </div>
+      </el-col>
     </el-row>
-  </div>
-  <div v-show="showImptyTips">
-    没有找到您要搜索的内容，换个词试一试吧~
-  </div>
-  <el-pagination
-    :hide-on-single-page="1"
-    class="search-paginaton"
-    @current-change='handleCurrentChange'
-    @prev-click="handleCurrentChange"
-    @next-click="handleCurrentChange"
-    :page-size="10"
-    layout="prev, pager, next"
-    :total="this.totalLength">
-  </el-pagination>
+    <div class="result-list">
+      <el-row class="result-item"  v-for="(item, index) in searchResultList"  :key="index">
+        <div class="item-cover" @click="toArticleDetail(item.id)">
+          <img :src="baseUrl + item.cover.replace('/api','')" class="item-cover-image">
+        </div>
+        <div class="item-content" @click="toArticleDetail(item.id)" >
+          <div class="article-title">{{ item.title }}</div>
+          <div class="article-content" >{{item.content.replace(/<[^>]+>/g, '')}}</div>
+          <div class="article-author">作者：{{item.author}} 时间：{{(!item.time || item.time.length == 1 || item.time.length < 10) ? '2020-08-30' : item.time.split(' ')[0]}}</div>
+        </div>
+      </el-row>
+    </div>
+    
+    <div v-show="showImptyTips">
+      没有找到您要搜索的内容，换个词试一试吧~
+    </div>
+    <el-pagination
+      :hide-on-single-page="1"
+      class="search-paginaton"
+      @current-change='handleCurrentChange'
+      @prev-click="handleCurrentChange"
+      @next-click="handleCurrentChange"
+      :page-size="10"
+      layout="prev, pager, next"
+      :total="this.totalLength">
+    </el-pagination>
   </el-container>
 </template>
 
 <script>
+import BackGround from '@/components/Background'
 import { Container, Button, Row, Autocomplete, Pagination } from 'element-ui'
 import axios from '../server/axios'
 import BASE_URL from '@/server/config'
@@ -69,7 +69,8 @@ export default {
     'el-button': Button,
     'el-row': Row,
     'el-autocomplete': Autocomplete,
-    'el-pagination': Pagination
+    'el-pagination': Pagination,
+    BackGround
   },
   name: 'SearchBar',
   data() {
@@ -199,12 +200,10 @@ export default {
   .hot-list {
     width: 600px;
     font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
-    color: #22222280;
-    /* padding: 10px; */
+        color: white;
   }
   .hot-list span {
-    color: #222222a6;
-    /* margin-left: -10px; */
+        color: white;
     font-weight: 400;
     font-size: 19px;
   }
@@ -283,11 +282,6 @@ export default {
     flex-direction: column; 
     align-items: center;
     padding-bottom: 60px;
-  }
-  .add-article {
-    position: absolute;
-    right: 30px;
-    top: 30px;
   }
   button img {
     transition: transform .25s;
@@ -422,4 +416,112 @@ export default {
   color: #222;
   font-size: 15px;
 }
+.bg-bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+.bg-bubbles li {
+  position: absolute;
+  list-style: none;
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.15);
+  bottom: -160px;
+  animation: square 25s infinite;
+  transition-timing-function: linear;
+}
+.bg-bubbles li:nth-child(1) {
+  left: 10%;
+}
+.bg-bubbles li:nth-child(2) {
+  left: 20%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 2s;
+  animation-duration: 17s;
+}
+.bg-bubbles li:nth-child(3) {
+  left: 25%;
+  animation-delay: 4s;
+}
+.bg-bubbles li:nth-child(4) {
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-duration: 22s;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.bg-bubbles li:nth-child(5) {
+  left: 70%;
+}
+.bg-bubbles li:nth-child(6) {
+  left: 80%;
+  width: 120px;
+  height: 120px;
+  animation-delay: 3s;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.bg-bubbles li:nth-child(7) {
+  left: 32%;
+  width: 160px;
+  height: 160px;
+  animation-delay: 7s;
+}
+.bg-bubbles li:nth-child(8) {
+  left: 55%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 15s;
+  animation-duration: 40s;
+}
+.bg-bubbles li:nth-child(9) {
+  left: 25%;
+  width: 10px;
+  height: 10px;
+  animation-delay: 2s;
+  animation-duration: 40s;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.bg-bubbles li:nth-child(10) {
+  left: 90%;
+  width: 160px;
+  height: 160px;
+  animation-delay: 11s;
+}
+@-webkit-keyframes square {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-700px) rotate(600deg);
+  }
+}
+@keyframes square {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-700px) rotate(600deg);
+  }
+}
+.wrapper {
+  color: white;
+  background: #50a3a2;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
 </style>
