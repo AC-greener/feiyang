@@ -35,12 +35,12 @@
                   </p>
                   <div slot="reference"> <!--这里原本有动态绑定的class，去掉-->
                     <p>
-                    <div style="width:100%;height:100%;">
+                    <div style="width:100%;height:100%;margin-top:-8px">
+                      <span class="number" style="color:#50a392;text-decoration:underline;" v-if="dealMyDate(data.day).split('&')[1] != undefined">
+                      {{dealMyDate(data.day).split('&')[1]}}</span><br>
                       <span class="number" style="color:rgb(56,85,157);" v-if="dealMyDate(data.day).split('&')[0] != undefined">
                       {{dealMyDate(data.day).split('&')[0]}}</span>
-                      <span v-if="dealMyDate(data.day).split('&').length > 1">|</span>
-                    <span class="number" style="color:#50a392" v-if="dealMyDate(data.day).split('&')[1] != undefined">
-                      {{dealMyDate(data.day).split('&')[1]}}</span>
+                      <span v-if="dealMyDate(data.day).split('&').length > 1"><br></span>
                     </div>
                     </p>
                   </div>

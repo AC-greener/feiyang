@@ -1,5 +1,5 @@
 <template>
-<el-container class="article-container">
+<el-container class="article-container" v-loading="loading">
   <el-header>
   </el-header>
   <div class="like" @click='handleLikeClick'>
@@ -41,6 +41,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       id: this.$route.params.id,
       title: '',
       content: '',
@@ -79,6 +80,7 @@ export default {
     getArticleInfo() {
       axios.get(`${BASE_URL}/article?id=${this.id}`)
         .then(res => {
+          this.loading = false
           if(res.data.status !== 200) {
             this.$message({
               message: res.data.message,
@@ -95,6 +97,7 @@ export default {
             message: err,
             type: 'error'
           })
+          this.loading = false
         })
     },
     handleLikeClick() {

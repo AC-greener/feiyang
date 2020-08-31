@@ -16,10 +16,10 @@
     <!-- 热门推荐 -->
     <el-row :gutter="30" v-show="!searchResultList.length && !showImptyTips" class="hot-list">
       <el-col :span="11" v-show="hostList.length" style="margin-left:60px;">
-        <span style="font-size: 25px;color:#FF4500"><i class="el-icon-s-data"></i> 用户热搜榜:</span>
+        <span style="font-size: 25px;color:#A52A2A"><i class="el-icon-s-data"></i> 用户热搜榜:</span>
         <div class='hot-item-wrapper'>
           <div class="hot-item" v-for="(item, index) in hostList" :key="index" @click="toArticleDetail(item.id)">
-            <div :style="'font-size:16px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
+            <div :style="'font-size:15px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
             &nbsp;&nbsp;{{item.title}}
           </div>
         </div>
@@ -27,7 +27,7 @@
       <el-col :span="11" v-show="latestList.length">
         <span style="font-size: 25px;color: #000"><i class="el-icon-s-claim"></i> 文章最新榜:</span>
         <div class="hot-item"  v-for="(item, index) in latestList" :key="index" @click="toArticleDetail(item.id)">
-          <div :style="'font-size:16px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
+          <div :style="'font-size:15px;display:inline-block;padding:4px 6px;background-color:' + colors[index]">{{index+1}}</div>
           &nbsp;&nbsp;{{item.title}}
         </div>
       </el-col>
@@ -222,7 +222,7 @@ export default {
     /* display: inline-block; */
     font-size: 17px;
     cursor: pointer;
-    margin: 8px 10px;
+    margin: 6px 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
