@@ -166,7 +166,7 @@ export default {
   .article-container .like {
     position: fixed;
     top: 250px;
-    right: 10px;
+    right: 6px;
     padding-right: 10px;
     height: 60px;
     text-align: start;
@@ -180,7 +180,7 @@ export default {
   .backTop {
     position: fixed;
     bottom: 20px;
-    right: 76px;
+    right: 72px;
     color: white;
     cursor: pointer;
   }

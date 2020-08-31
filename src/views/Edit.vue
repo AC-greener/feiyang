@@ -26,7 +26,7 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <editor 
+    <editor
       :options="defaultOptions"
       height="470px"
       @change="onEditorChange"

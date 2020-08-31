@@ -1,14 +1,26 @@
 <template>
   <el-container class="search-container" v-loading="loading">
     <div class="searchbox">
-      <el-autocomplete
+      <!-- <el-autocomplete
         class="search-input"
         v-model="keywords"
         :fetch-suggestions="getSearchRecommend"
         placeholder="探索知识世界，从这里开始..."
         :trigger-on-focus="false"
         @change="handleSearch"
-      ></el-autocomplete>
+      ></el-autocomplete> -->
+      <el-dropdown :hide-on-click="false" class="btn-menu">
+        <span class="el-dropdown-link">
+          知识<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>知识</el-dropdown-item>
+          <el-dropdown-item>方案</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <input  v-model="keywords" id="search" type="text"  autocomplete="off"
+      placeholder="探索知识世界，从这里开始..." name="search" class="search"
+      @keyup.enter="handleSearch">
       <button class="btn-search" @click="handleSearch">
         <i class="el-icon-search search-icon"></i>
       </button>
@@ -180,6 +192,8 @@ export default {
         this.totalLength = res.data.data.count
         if(this.totalLength === 0) {
           this.showImptyTips = true
+        } else {
+          this.showImptyTips = false
         }
         this.$store.commit('changeSearchHistory', {
           searchHistory: this.searchResultList
